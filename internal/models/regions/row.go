@@ -1,7 +1,15 @@
 package regions
 
-import "Lechenco/sudoku-solver/internal/models"
+import "Lechenco/sudoku-solver/internal/models/cells"
 
-type Row struct {
-	Values [9]*models.Value
+type RowRegion struct {
+	linearRegion
+}
+
+func NewRowsRegion(cells [9]*cells.Cell) RowRegion {
+	return RowRegion{
+		linearRegion{
+			Cells: cells,
+		},
+	}
 }

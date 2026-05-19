@@ -1,4 +1,4 @@
-package models
+package cells
 
 type Value uint8
 

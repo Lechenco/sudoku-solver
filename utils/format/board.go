@@ -2,15 +2,25 @@ package format
 
 import (
 	"Lechenco/sudoku-solver/internal/models"
+	"Lechenco/sudoku-solver/internal/models/cells"
 )
 
 func BoardFromString(s string) models.Board {
 	var board models.Board
+	var count int
 	for i, c := range s {
 		if c >= '1' && c <= '9' {
-			board.Cells[i/9][i%9] = models.ToCell(models.ToValue(c))
+			board.Cells[i/9][i%9] = cells.ToCell(cells.ToValue(c))
+		} else {
+			board.Cells[i/9][i%9] = cells.ToCell(0)
 		}
+		count++
 	}
+
+	for ; count < 81; count++ {
+		board.Cells[count/9][count%9] = cells.ToCell(0)
+	}
+
 	return board
 }
 
