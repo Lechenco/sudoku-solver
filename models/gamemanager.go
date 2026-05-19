@@ -1,6 +1,9 @@
 package models
 
-import "Lechenco/sudoku-solver/internal/models"
+import (
+	"Lechenco/sudoku-solver/internal/models"
+	"Lechenco/sudoku-solver/utils/format"
+)
 
 type GameConfig struct {
 	InitialBoard models.Board
@@ -13,5 +16,5 @@ type GameManager interface {
 }
 
 func BoardOfGameState(board string) models.Board {
-	return models.NewBoard(board)
+	return format.BoardFromString(board)
 }
