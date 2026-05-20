@@ -13,6 +13,7 @@ type GameManager interface {
 	Init(GameConfig)
 	Step(GameState) GameState
 	StepAll()
+	ValidState() error
 }
 
 func BoardOfGameState(board string) models.Board {

@@ -1,15 +1,15 @@
 package cells
 
-type Candidates uint16
+type ValuesSet uint16
 
-func (c Candidates) Has(value Value) bool {
+func (c ValuesSet) Has(value Value) bool {
 	return c&(1<<(value-1)) != 0
 }
 
-func (c *Candidates) Add(value Value) {
+func (c *ValuesSet) Add(value Value) {
 	*c |= 1 << (value - 1)
 }
 
-func (c *Candidates) Remove(value Value) {
+func (c *ValuesSet) Remove(value Value) {
 	*c &^= 1 << (value - 1)
 }

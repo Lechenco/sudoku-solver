@@ -7,3 +7,7 @@ type GameState struct {
 	InitialBoard models.Board
 	Steps        []models.Step
 }
+
+func (g *GameState) Valid() error {
+	return g.Board.Valid()
+}

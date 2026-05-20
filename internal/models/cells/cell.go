@@ -1,8 +1,8 @@
 package cells
 
 type Cell struct {
-	Value Value
-	Candidates
+	Value      Value
+	Candidates ValuesSet
 }
 
 func (c Cell) IsEmpty() bool {
@@ -14,9 +14,9 @@ func (c Cell) String() string {
 }
 
 func ToCell(value Value) *Cell {
-	var candidates Candidates
+	var candidates ValuesSet
 	if value == 0 {
-		candidates = Candidates(0x1FF) // All candidates (1-9) are possible
+		candidates = ValuesSet(0x1FF) // All candidates (1-9) are possible
 	}
 	return &Cell{
 		Value:      value,
