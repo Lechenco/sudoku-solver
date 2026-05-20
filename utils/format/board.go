@@ -8,6 +8,11 @@ import (
 func BoardFromString(s string) models.Board {
 	var board models.Board
 	var count int
+
+	if len(s) > 81 {
+		s = s[:81]
+	}
+
 	for i, c := range s {
 		if c >= '1' && c <= '9' {
 			board.Cells[i/9][i%9] = cells.ToCell(cells.ToValue(c))
@@ -31,7 +36,7 @@ func BoardToString(board models.Board) string {
 	bottomBorder := "└───────┴───────┴───────┘\n"
 
 	s += topBorder
-	for i, row := range board.Cells {
+	for i, row := range board.GetCells() {
 		s += "│ "
 
 		for j, cell := range row {

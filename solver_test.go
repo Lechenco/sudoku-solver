@@ -1,58 +1,67 @@
-package sudokusolver_test
+package sudokusolver
 
 import (
-	sudokusolver "Lechenco/sudoku-solver"
-	"context"
 	"errors"
-	"strings"
 	"testing"
 
-	"github.com/cucumber/godog"
+	"Lechenco/sudoku-solver/internal/models/cells"
+	"Lechenco/sudoku-solver/models"
+
+	"github.com/stretchr/testify/assert"
 )
 
-type sudokuCtxKey struct{}
-
-type sudokuCtx struct {
-	solver sudokusolver.SudokuSolver
-	err    error
+type spyGameManager struct {
+	initCalled       bool
+	validStateCalled bool
+	initConfig       models.GameConfig
+	validStateErr    error
 }
 
-func oJogoDeveSerInvlido(ctx context.Context) error {
-	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
-
-	if sudokuctx.err == nil {
-		return errors.New("O jogo foi considerado válido")
-	}
-
-	return nil
+func (s *spyGameManager) Init(config models.GameConfig) {
+	s.initCalled = true
+	s.initConfig = config
 }
 
-func oTabuleiroAbaixo(ctx context.Context, arg1 *godog.DocString) (context.Context, error) {
-	s := strings.Trim(arg1.Content, " ")
-	solver, err := sudokusolver.NewSudokuSolver(strings.ReplaceAll(s, "\n", ""))
-
-	return context.WithValue(ctx, sudokuCtxKey{}, sudokuCtx{
-		solver: solver, err: err,
-	}), nil
+func (s *spyGameManager) Step(state models.GameState) models.GameState {
+	return state
 }
 
-func TestFeature(t *testing.T) {
-	suite := godog.TestSuite{
-		ScenarioInitializer: InitializeScenario,
-		Options: &godog.Options{
-			Format:   "pretty",
-			Paths:    []string{"tests/features"},
-			TestingT: t, // Testing instance that will run subtests.
-			Dialect:  "pt",
-		},
-	}
+func (s *spyGameManager) StepAll() {}
 
-	if suite.Run() != 0 {
-		t.Fatal("non-zero status returned, failed to run feature tests")
-	}
+func (s *spyGameManager) ValidState() error {
+	s.validStateCalled = true
+	return s.validStateErr
 }
 
-func InitializeScenario(sc *godog.ScenarioContext) {
-	sc.Step(`^o jogo deve ser inválido$`, oJogoDeveSerInvlido)
-	sc.Step(`^o tabuleiro abaixo:$`, oTabuleiroAbaixo)
+func TestNewSudokuSolver_CallsInitAndValidState(t *testing.T) {
+	assert := assert.New(t)
+	previousManager := newGameManager
+	defer func() { newGameManager = previousManager }()
+
+	spy := &spyGameManager{}
+	newGameManager = func() models.GameManager { return spy }
+
+	solver, err := NewSudokuSolver("5")
+
+	assert.Nil(err, "expected no error, got %v", err)
+	assert.True(spy.initCalled, "expected Init to be called")
+	assert.True(spy.validStateCalled)
+	assert.Equal(solver.gameManager, spy)
+	assert.Equal(cells.Value(5), spy.initConfig.InitialBoard.GetCells()[0][0].Value)
+}
+
+func TestNewSudokuSolver_PropagatesValidStateError(t *testing.T) {
+	assert := assert.New(t)
+	previousManager := newGameManager
+	defer func() { newGameManager = previousManager }()
+
+	expectedErr := errors.New("invalid game state")
+	spy := &spyGameManager{validStateErr: expectedErr}
+	newGameManager = func() models.GameManager { return spy }
+
+	solver, err := NewSudokuSolver("5")
+	assert.Equal(expectedErr, err)
+	assert.True(spy.initCalled)
+	assert.True(spy.validStateCalled)
+	assert.Equal(spy, solver.gameManager)
 }

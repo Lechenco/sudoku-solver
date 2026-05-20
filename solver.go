@@ -10,9 +10,13 @@ type SudokuSolver struct {
 	gameManager models.GameManager
 }
 
+var newGameManager = func() models.GameManager {
+	return &services.SudokuManager{}
+}
+
 func NewSudokuSolver(boardString string) (SudokuSolver, error) {
 	solver := SudokuSolver{
-		gameManager: &services.SudokuManager{},
+		gameManager: newGameManager(),
 	}
 	solver.gameManager.Init(models.GameConfig{
 		InitialBoard: format.BoardFromString(boardString),

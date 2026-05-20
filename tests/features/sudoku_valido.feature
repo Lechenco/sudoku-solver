@@ -1,4 +1,3 @@
-
 Funcionalidade: Identificar Sudokus inválidos
 
             Dado um tabuleiro de sudoku, deve-se identificar se o mesmo é válido ou não.

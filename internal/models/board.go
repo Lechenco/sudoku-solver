@@ -13,6 +13,10 @@ type Board struct {
 	allRegions []regions.Region
 }
 
+func (b *Board) GetCells() [9][9]*cells.Cell {
+	return b.Cells
+}
+
 func (b *Board) Valid() error {
 
 	for _, col := range b.allRegions {
