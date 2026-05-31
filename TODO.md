@@ -1,12 +1,20 @@
 # Sudoku Solver - TODO
 
+## Foundation
+
+- [x] Verify if current state is legal
+- [ ] Set value in a cell should remove candidates from region
+- [ ] Set value with position should remove candidates from all related regions
+
 ## Core Functionality
-- [X] Implement sudoku puzzle parser
+
+- [x] Implement sudoku puzzle parser
 - [ ] Create constraint validation logic
 - [ ] Build backtracking solver algorithm
 - [ ] Add constraint propagation optimization
 
 ## Features
+
 - [ ] Input validation for puzzle format
 - [ ] Multiple solver strategies (backtracking, constraint propagation)
 - [ ] Solution verification
@@ -14,18 +22,21 @@
 - [ ] Performance profiling
 
 ## Testing
+
 - [ ] Unit tests for solver
 - [ ] Test with various difficulty levels
-- [ ] Edge case testing (invalid puzzles, no solution)
+- [x] Edge case testing (invalid puzzles, no solution)
 - [ ] Performance benchmarks
 
 ## Documentation
+
 - [ ] API documentation
 - [ ] Usage examples
 - [ ] Algorithm explanation
 - [ ] README with setup instructions
 
 ## UI/Output
+
 - [ ] Pretty print solution
 - [ ] Display step-by-step solving process
 - [ ] Export results to file

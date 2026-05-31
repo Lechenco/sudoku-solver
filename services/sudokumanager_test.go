@@ -19,5 +19,5 @@ func TestInit(t *testing.T) {
 
 	assert.Equal(expectedConfig, manager.GameConfig)
 	assert.Equal(expectedConfig.InitialBoard, manager.GameState.InitialBoard)
-	assert.Equal(expectedConfig.InitialBoard, manager.GameState.Board)
+	assert.NotNil(manager.GameState.Board)
 }

@@ -46,7 +46,7 @@ func TestNewSudokuSolver_CallsInitAndValidState(t *testing.T) {
 	assert.Nil(err, "expected no error, got %v", err)
 	assert.True(spy.initCalled, "expected Init to be called")
 	assert.True(spy.validStateCalled)
-	assert.Equal(solver.gameManager, spy)
+	assert.Equal(solver.GameManager, spy)
 	assert.Equal(cells.Value(5), spy.initConfig.InitialBoard.GetCells()[0][0].Value)
 }
 
@@ -63,5 +63,5 @@ func TestNewSudokuSolver_PropagatesValidStateError(t *testing.T) {
 	assert.Equal(expectedErr, err)
 	assert.True(spy.initCalled)
 	assert.True(spy.validStateCalled)
-	assert.Equal(spy, solver.gameManager)
+	assert.Equal(spy, solver.GameManager)
 }

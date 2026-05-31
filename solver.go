@@ -7,7 +7,7 @@ import (
 )
 
 type SudokuSolver struct {
-	gameManager models.GameManager
+	models.GameManager
 }
 
 var newGameManager = func() models.GameManager {
@@ -16,12 +16,12 @@ var newGameManager = func() models.GameManager {
 
 func NewSudokuSolver(boardString string) (SudokuSolver, error) {
 	solver := SudokuSolver{
-		gameManager: newGameManager(),
+		newGameManager(),
 	}
-	solver.gameManager.Init(models.GameConfig{
+	solver.Init(models.GameConfig{
 		InitialBoard: format.BoardFromString(boardString),
 	})
-	err := solver.gameManager.ValidState()
+	err := solver.ValidState()
 
 	return solver, err
 }

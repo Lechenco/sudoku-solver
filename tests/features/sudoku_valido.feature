@@ -16,6 +16,21 @@ Funcionalidade: Identificar Sudokus inválidos
                   7...2...6
                   .6..5.2..
                   7..8.3..5
-                  .9.....6.
+                  .......8.
+                  """
+             Então o jogo deve ser inválido
+
+        Cenário: Linha inicial com valores repetidos
+            Dado o tabuleiro abaixo:
+                  """
+                  53..7.3..
+                  6..195...
+                  .98....6.
+                  8...6...3
+                  4....3..1
+                  ....2...6
+                  .6..5.2..
+                  7..8.2..5
+                  .......8.
                   """
              Então o jogo deve ser inválido
