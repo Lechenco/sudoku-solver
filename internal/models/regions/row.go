@@ -6,8 +6,8 @@ type RowRegion struct {
 	linearRegion
 }
 
-func NewRowsRegion(cells [9]*cells.Cell) RowRegion {
-	return RowRegion{
+func NewRowsRegion(cells [9]*cells.Cell) *RowRegion {
+	return &RowRegion{
 		linearRegion{
 			Cells: cells,
 		},

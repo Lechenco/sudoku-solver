@@ -15,21 +15,21 @@ type linearRegion struct {
 	Cells [9]*cells.Cell
 }
 
-func (c linearRegion) GetCandidates() cells.ValuesSet {
+func (c *linearRegion) GetCandidates() cells.ValuesSet {
 	candidate := cells.ValuesSet(0x0)
 
 	for _, cell := range c.Cells {
-		candidate |= cell.Candidates
+		candidate |= *cell.Candidates
 	}
 
 	return candidate
 }
 
-func (c linearRegion) GetCell(index uint8) *cells.Cell {
+func (c *linearRegion) GetCell(index uint8) *cells.Cell {
 	return c.Cells[index]
 }
 
-func (c linearRegion) Valid() error {
+func (c *linearRegion) Valid() error {
 	onRegion := cells.ValuesSet(0)
 
 	for _, cell := range c.Cells {

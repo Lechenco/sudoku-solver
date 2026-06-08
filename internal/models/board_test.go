@@ -98,9 +98,17 @@ func TestInitRegions(t *testing.T) {
 		for k, square := range b.Squares {
 			for i, row := range square.Cells {
 				for j, cell := range row {
-					assert.Equal(cells.Value(expectedSquares[(k/3)*3+i][(k%3)*3+j]), cell.Value)
+					expectedValue := expectedSquares[(k/3)*3+i][(k%3)*3+j]
+					assert.Equal(cells.Value(expectedValue), cell.Value)
 				}
 			}
+		}
+	})
+	t.Run("Check cleanedRegions was instanciated", func(t *testing.T) {
+		assert.NotNil(b.CleanedRegions)
+		assert.Equal(27, len(b.CleanedRegions))
+		for _, b := range b.CleanedRegions {
+			assert.False(b)
 		}
 	})
 }

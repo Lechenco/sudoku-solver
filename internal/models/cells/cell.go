@@ -2,7 +2,7 @@ package cells
 
 type Cell struct {
 	Value      Value
-	Candidates ValuesSet
+	Candidates *ValuesSet
 	Position   Position
 }
 
@@ -25,6 +25,11 @@ func ToCell(value Value) *Cell {
 	}
 	return &Cell{
 		Value:      value,
-		Candidates: candidates,
+		Candidates: &candidates,
 	}
+}
+
+func (c *Cell) SetValue(value Value) {
+	c.Value = value
+	c.Candidates.Clear()
 }

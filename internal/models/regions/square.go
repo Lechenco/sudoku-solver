@@ -14,7 +14,7 @@ func (s SquareRegion) GetCandidates() cells.ValuesSet {
 
 	for _, cellRow := range s.Cells {
 		for _, cell := range cellRow {
-			candidate |= cell.Candidates
+			candidate |= *cell.Candidates
 		}
 	}
 
@@ -41,8 +41,8 @@ func (s SquareRegion) Valid() error {
 	return nil
 }
 
-func NewSquareRegion(cells [3][3]*cells.Cell) SquareRegion {
-	return SquareRegion{
+func NewSquareRegion(cells [3][3]*cells.Cell) *SquareRegion {
+	return &SquareRegion{
 		Cells: cells,
 	}
 }

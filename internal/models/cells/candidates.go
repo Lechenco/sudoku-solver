@@ -13,3 +13,11 @@ func (c *ValuesSet) Add(value Value) {
 func (c *ValuesSet) Remove(value Value) {
 	*c &^= 1 << (value - 1)
 }
+
+func (c ValuesSet) IsEmpty() bool {
+	return c == ValuesSet(0x0)
+}
+
+func (c *ValuesSet) Clear() {
+	*c = 0x0
+}
