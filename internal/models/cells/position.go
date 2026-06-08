@@ -1,4 +1,4 @@
-package models
+package cells
 
 type Position struct {
 	RowNumber    uint8

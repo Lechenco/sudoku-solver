@@ -30,11 +30,20 @@ func (b *Board) Valid() error {
 	return nil
 }
 
-func (b *Board) InitRegions() {
+func (b *Board) Init() {
+	b.initPositions()
 	b.AllRegions = []regions.Region{}
 	b.initColumns()
 	b.initRows()
 	b.initSquares()
+}
+
+func (b *Board) initPositions() {
+	for i, row := range b.Cells {
+		for j, cell := range row {
+			cell.Position = cells.Position{RowNumber: uint8(i), ColumnNumber: uint8(j)}
+		}
+	}
 }
 
 func (b *Board) initRows() {

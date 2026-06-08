@@ -3,6 +3,11 @@ package cells
 type Cell struct {
 	Value      Value
 	Candidates ValuesSet
+	Position   Position
+}
+
+func (c Cell) GetValue() Value {
+	return c.Value
 }
 
 func (c Cell) IsEmpty() bool {

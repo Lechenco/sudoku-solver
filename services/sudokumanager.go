@@ -13,7 +13,7 @@ func (s *SudokuManager) Init(config models.GameConfig) {
 		InitialBoard: config.InitialBoard,
 		Board:        config.InitialBoard,
 	}
-	s.GameState.Board.InitRegions()
+	s.GameState.Board.Init()
 }
 
 func (s *SudokuManager) Step(state models.GameState) models.GameState {

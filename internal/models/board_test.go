@@ -25,7 +25,7 @@ func TestInitRegions(t *testing.T) {
 	assert := assert.New(t)
 
 	b := format.BoardFromString(newConst)
-	b.InitRegions()
+	b.Init()
 
 	t.Run("Check all cells are correct", func(t *testing.T) {
 		expectedCells := [][]uint8{
@@ -42,6 +42,8 @@ func TestInitRegions(t *testing.T) {
 		for i, row := range b.Cells {
 			for j, cell := range row {
 				assert.Equal(cells.Value(expectedCells[i][j]), cell.Value)
+				assert.Equal(uint8(i), cell.Position.RowNumber)
+				assert.Equal(uint8(j), cell.Position.ColumnNumber)
 			}
 		}
 	})
@@ -95,9 +97,9 @@ func TestInitRegions(t *testing.T) {
 		}
 		for k, square := range b.Squares {
 			for i, row := range square.Cells {
-			for j, cell := range row {
-				assert.Equal(cells.Value(expectedSquares[(k/3)*3 + i][(k%3)*3 + j]), cell.Value)
-			}
+				for j, cell := range row {
+					assert.Equal(cells.Value(expectedSquares[(k/3)*3+i][(k%3)*3+j]), cell.Value)
+				}
 			}
 		}
 	})
