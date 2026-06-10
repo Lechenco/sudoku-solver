@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var newConst = strings.ReplaceAll(`
+var initBoardString = strings.ReplaceAll(`
 1..4..7..
 .2..5..8.
 ..3..6..9
@@ -22,12 +22,11 @@ var newConst = strings.ReplaceAll(`
 `, "\n", "")
 
 func TestInitRegions(t *testing.T) {
-	assert := assert.New(t)
-
-	b := format.BoardFromString(newConst)
+	b := format.BoardFromString(initBoardString)
 	b.Init()
 
 	t.Run("Check all cells are correct", func(t *testing.T) {
+		assert := assert.New(t)
 		expectedCells := [][]uint8{
 			{1, 0, 0, 4, 0, 0, 7, 0, 0},
 			{0, 2, 0, 0, 5, 0, 0, 8, 0},
@@ -48,6 +47,7 @@ func TestInitRegions(t *testing.T) {
 		}
 	})
 	t.Run("Check all rows are correct", func(t *testing.T) {
+		assert := assert.New(t)
 		expectedRows := [][]uint8{
 			{1, 0, 0, 4, 0, 0, 7, 0, 0},
 			{0, 2, 0, 0, 5, 0, 0, 8, 0},
@@ -66,6 +66,7 @@ func TestInitRegions(t *testing.T) {
 		}
 	})
 	t.Run("Check all columns are correct", func(t *testing.T) {
+		assert := assert.New(t)
 		expectedColumns := [][]uint8{
 			{1, 0, 0, 0, 0, 1, 1, 0, 0},
 			{0, 2, 0, 0, 2, 0, 0, 2, 0},
@@ -84,6 +85,7 @@ func TestInitRegions(t *testing.T) {
 		}
 	})
 	t.Run("Check all squares are correct", func(t *testing.T) {
+		assert := assert.New(t)
 		expectedSquares := [][]uint8{
 			{1, 0, 0, 4, 0, 0, 7, 0, 0},
 			{0, 2, 0, 0, 5, 0, 0, 8, 0},
@@ -105,10 +107,79 @@ func TestInitRegions(t *testing.T) {
 		}
 	})
 	t.Run("Check cleanedRegions was instanciated", func(t *testing.T) {
+		assert := assert.New(t)
 		assert.NotNil(b.CleanedRegions)
 		assert.Equal(27, len(b.CleanedRegions))
 		for _, b := range b.CleanedRegions {
 			assert.False(b)
 		}
+	})
+}
+
+var setValueBoardString = strings.ReplaceAll(`
+1..4..2..
+.4..5..9.
+..3..6..8
+..1..2..4
+.2..1..3.
+9..8..6..
+6..2..7..
+.1..4..8.
+..7..8..9
+`, "\n", "")
+
+func TestSetValue(t *testing.T) {
+
+	b := format.BoardFromString(setValueBoardString)
+	b.Init()
+
+	t.Run("SetValue should change the cell position value", func(t *testing.T) {
+		assert := assert.New(t)
+		err := b.SetValue(cells.Position{
+			RowNumber:    1,
+			ColumnNumber: 0,
+		}, cells.Value(7))
+
+		assert.Nil(err)
+		assert.Equal(cells.Value(7), b.Cells[1][0].Value)
+	})
+
+	t.Run("SetValue should remove candidate from regions", func(t *testing.T) {
+		assert := assert.New(t)
+
+		assert.True(b.Columns[0].GetCandidates().Has(8))
+		assert.True(b.Rows[1].GetCandidates().Has(8))
+		assert.True(b.Squares[0].GetCandidates().Has(8))
+
+		err := b.SetValue(cells.Position{
+			RowNumber:    0,
+			ColumnNumber: 1,
+		}, cells.Value(8))
+
+		assert.Nil(err)
+		assert.False(b.Columns[1].GetCandidates().Has(8))
+		assert.False(b.Rows[0].GetCandidates().Has(8))
+		assert.False(b.Squares[0].GetCandidates().Has(8))
+	})
+
+	t.Run("SetValue should not allowed to override a existed value", func(t *testing.T) {
+		assert := assert.New(t)
+		err := b.SetValue(cells.Position{
+			RowNumber:    0,
+			ColumnNumber: 0,
+		}, cells.Value(5))
+
+		assert.EqualError(err, "{Cell[{0 0}]: 1} already filled, overrides are not allowed.")
+	})
+
+	t.Run("SetValue should not allowed to set as zero", func(t *testing.T) {
+
+		assert := assert.New(t)
+		err := b.SetValue(cells.Position{
+			RowNumber:    0,
+			ColumnNumber: 5,
+		}, cells.Value(0))
+
+		assert.EqualError(err, "{Cell[{0 5}]: _} cannot set a cell value to zero")
 	})
 }

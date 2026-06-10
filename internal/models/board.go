@@ -4,14 +4,13 @@ import (
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"Lechenco/sudoku-solver/internal/models/regions"
 	"Lechenco/sudoku-solver/utils"
-	"fmt"
 	"slices"
 )
 
 type CellGrid [9][9]*cells.Cell
 
-func (g *CellGrid) SetValue(position cells.Position, value cells.Value) {
-	g[position.RowNumber][position.ColumnNumber].SetValue(value)
+func (g *CellGrid) SetValue(position cells.Position, value cells.Value) error {
+	return g[position.RowNumber][position.ColumnNumber].SetValue(value)
 }
 
 type Board struct {
@@ -28,7 +27,11 @@ func (b *Board) GetCells() CellGrid {
 }
 
 func (b *Board) SetValue(position cells.Position, value cells.Value) (err error) {
-	b.Cells.SetValue(position, value)
+	err = b.Cells.SetValue(position, value)
+
+	if err != nil {
+		return
+	}
 
 	err = b.Valid()
 
@@ -37,6 +40,7 @@ func (b *Board) SetValue(position cells.Position, value cells.Value) (err error)
 	}
 
 	for _, region := range b.getRegions(position) {
+		region.RemoveCandidate(value)
 		if region.GetCandidates().IsEmpty() {
 			index := slices.IndexFunc(b.AllRegions, func(r regions.Region) bool {
 				return region == r
@@ -52,7 +56,7 @@ func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
 	arr = append(arr, b.Columns[position.ColumnNumber])
 	arr = append(arr, b.Rows[position.RowNumber])
 
-	row, col := utils.IndexRegionPos(position)
+	row, col := utils.IndexSquareRegionPos(position)
 	arr = append(arr, b.Squares[3*col+row])
 
 	return
@@ -62,7 +66,6 @@ func (b *Board) Valid() error {
 
 	for _, col := range b.AllRegions {
 		if err := col.Valid(); err != nil {
-			fmt.Printf("%v", col)
 			return err
 		}
 	}
@@ -110,7 +113,7 @@ func (b *Board) initSquares() {
 	for i := range 9 {
 		var cells [3][3]*cells.Cell
 		for j := range 9 {
-			row, col := utils.IndexRegion(i, j)
+			row, col := (i/3)*3+(j/3), (i%3)*3+(j%3)
 			cells[j/3][j%3] = b.Cells[row][col]
 		}
 		b.Squares[i] = regions.NewSquareRegion(cells)

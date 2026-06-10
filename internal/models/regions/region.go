@@ -9,6 +9,7 @@ type Region interface {
 	GetCandidates() cells.ValuesSet
 	GetCell(index uint8) *cells.Cell
 	Valid() error
+	RemoveCandidate(value cells.Value)
 }
 
 type linearRegion struct {
@@ -35,10 +36,16 @@ func (c *linearRegion) Valid() error {
 	for _, cell := range c.Cells {
 		if cell.Value != 0 {
 			if onRegion.Has(cell.Value) {
-				return fmt.Errorf("Valor duplicado na mesma região: [%d]", cell.Value)
+				return fmt.Errorf("Valor duplicado na mesma região: [%v]", cell)
 			}
 			onRegion.Add(cell.Value)
 		}
 	}
 	return nil
+}
+
+func (c *linearRegion) RemoveCandidate(value cells.Value) {
+	for _, cell := range c.Cells {
+		cell.Candidates.Remove(value)
+	}
 }

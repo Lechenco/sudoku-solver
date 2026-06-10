@@ -32,7 +32,7 @@ func (s SquareRegion) Valid() error {
 		for _, cell := range rows {
 			if cell.Value != 0 {
 				if onRegion.Has(cell.Value) {
-					return fmt.Errorf("Valor duplicado na mesma região: [%d]", cell.Value)
+					return fmt.Errorf("Valor duplicado na mesma região: [%v]", cell)
 				}
 				onRegion.Add(cell.Value)
 			}
@@ -44,5 +44,13 @@ func (s SquareRegion) Valid() error {
 func NewSquareRegion(cells [3][3]*cells.Cell) *SquareRegion {
 	return &SquareRegion{
 		Cells: cells,
+	}
+}
+
+func (s *SquareRegion) RemoveCandidate(value cells.Value) {
+	for _, rows := range s.Cells {
+		for _, cell := range rows {
+			cell.Candidates.Remove(value)
+		}
 	}
 }

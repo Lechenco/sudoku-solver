@@ -1,5 +1,9 @@
 package cells
 
+import (
+	"fmt"
+)
+
 type Cell struct {
 	Value      Value
 	Candidates *ValuesSet
@@ -15,7 +19,7 @@ func (c Cell) IsEmpty() bool {
 }
 
 func (c Cell) String() string {
-	return c.Value.String()
+	return fmt.Sprintf("{Cell[%v]: %v}", c.Position, c.Value)
 }
 
 func ToCell(value Value) *Cell {
@@ -29,7 +33,17 @@ func ToCell(value Value) *Cell {
 	}
 }
 
-func (c *Cell) SetValue(value Value) {
+func (c *Cell) SetValue(value Value) error {
+	if c.Value != Value(0) {
+		return fmt.Errorf("%v already filled, overrides are not allowed.", c)
+	}
+
+	if value == Value(0) {
+		return fmt.Errorf("%v cannot set a cell value to zero", c)
+	}
+
 	c.Value = value
 	c.Candidates.Clear()
+
+	return nil
 }
