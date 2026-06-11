@@ -6,7 +6,7 @@ import (
 
 type Cell struct {
 	Value      Value
-	Candidates *ValuesSet
+	Candidates ValuesSet
 	Position   Position
 }
 
@@ -27,9 +27,10 @@ func ToCell(value Value) *Cell {
 	if value == 0 {
 		candidates = ValuesSet(0x1FF) // All candidates (1-9) are possible
 	}
+
 	return &Cell{
 		Value:      value,
-		Candidates: &candidates,
+		Candidates: candidates,
 	}
 }
 

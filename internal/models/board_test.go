@@ -162,6 +162,44 @@ func TestSetValue(t *testing.T) {
 		assert.False(b.Squares[0].GetCandidates().Has(8))
 	})
 
+	t.Run("SetValue should check if a region became completed", func(t *testing.T) {
+		assert := assert.New(t)
+
+		assert.False(b.CleanedRegions[18])
+
+		err := b.SetValue(cells.Position{
+			RowNumber:    0,
+			ColumnNumber: 2,
+		}, cells.Value(5))
+
+		assert.Nil(err)
+		assert.False(b.CleanedRegions[18])
+
+		err = b.SetValue(cells.Position{
+			RowNumber:    1,
+			ColumnNumber: 2,
+		}, cells.Value(6))
+
+		assert.Nil(err)
+		assert.False(b.CleanedRegions[18])
+
+		err = b.SetValue(cells.Position{
+			RowNumber:    2,
+			ColumnNumber: 0,
+		}, cells.Value(2))
+
+		assert.Nil(err)
+		assert.False(b.CleanedRegions[18])
+
+		err = b.SetValue(cells.Position{
+			RowNumber:    2,
+			ColumnNumber: 1,
+		}, cells.Value(9))
+
+		assert.Nil(err)
+		assert.True(b.CleanedRegions[18])
+	})
+
 	t.Run("SetValue should not allowed to override a existed value", func(t *testing.T) {
 		assert := assert.New(t)
 		err := b.SetValue(cells.Position{
@@ -181,5 +219,16 @@ func TestSetValue(t *testing.T) {
 		}, cells.Value(0))
 
 		assert.EqualError(err, "{Cell[{0 5}]: _} cannot set a cell value to zero")
+	})
+
+	t.Run("SetValue should valid the Board after set the cell value", func(t *testing.T) {
+
+		assert := assert.New(t)
+		err := b.SetValue(cells.Position{
+			RowNumber:    8,
+			ColumnNumber: 7,
+		}, cells.Value(7))
+
+		assert.EqualError(err, "Valor duplicado na mesma região: [{Cell[{8 7}]: 7}]")
 	})
 }

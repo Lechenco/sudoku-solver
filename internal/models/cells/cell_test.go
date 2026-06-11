@@ -12,22 +12,21 @@ func TestSetValue(t *testing.T) {
 
 	t.Run("Set Cell value should change value", func(t *testing.T) {
 		cell := cells.Cell{Value: cells.Value(0)}
-		cellptr := &cell
 
 		cell.SetValue(2)
 
 		assert.Equal(cells.Value(2), cell.Value)
-		assert.Equal(cells.Value(2), cellptr.Value)
 	})
 
 	t.Run("Set Cell value should clean Candidates", func(t *testing.T) {
 		candidate := cells.ValuesSet(0b01110)
 		cell := cells.Cell{Value: cells.Value(0),
-			Candidates: &candidate,
+			Candidates: candidate,
 		}
 
 		cell.SetValue(2)
 
-		assert.Equal(cells.ValuesSet(0x0), cell.Candidates)
+		expected := cells.ValuesSet(0x0)
+		assert.Equal(expected, cell.Candidates)
 	})
 }

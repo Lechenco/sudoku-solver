@@ -43,7 +43,7 @@ func BoardToString(board models.Board) string {
 			if cell.IsEmpty() {
 				s += "_ "
 			} else {
-				s += cell.String() + " "
+				s += cell.Value.String() + " "
 			}
 			if (j+1)%3 == 0 {
 				s += "│ "
