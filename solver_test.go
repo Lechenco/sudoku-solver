@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"Lechenco/sudoku-solver/internal/models/cells"
+	internalModels "Lechenco/sudoku-solver/internal/models"
 	"Lechenco/sudoku-solver/models"
 
 	"github.com/stretchr/testify/assert"
@@ -22,7 +23,7 @@ func (s *spyGameManager) Init(config models.GameConfig) {
 	s.initConfig = config
 }
 
-func (s *spyGameManager) Step(state models.GameState) models.GameState {
+func (s *spyGameManager) Step(state internalModels.GameState) internalModels.GameState {
 	return state
 }
 

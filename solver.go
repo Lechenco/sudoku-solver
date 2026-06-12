@@ -1,6 +1,7 @@
 package sudokusolver
 
 import (
+	"Lechenco/sudoku-solver/internal/strategy"
 	"Lechenco/sudoku-solver/models"
 	"Lechenco/sudoku-solver/services"
 	"Lechenco/sudoku-solver/utils/format"
@@ -20,6 +21,9 @@ func NewSudokuSolver(boardString string) (SudokuSolver, error) {
 	}
 	solver.Init(models.GameConfig{
 		InitialBoard: format.BoardFromString(boardString),
+		Strategies: []strategy.Strategy{
+			strategy.NakedSingleStrategyInstance(),
+		},
 	})
 	err := solver.ValidState()
 

@@ -1,22 +1,25 @@
 package services
 
-import "Lechenco/sudoku-solver/models"
+import (
+	internalModels "Lechenco/sudoku-solver/internal/models"
+	"Lechenco/sudoku-solver/models"
+)
 
 type SudokuManager struct {
 	GameConfig models.GameConfig
-	GameState  models.GameState
+	GameState  internalModels.GameState
 }
 
 func (s *SudokuManager) Init(config models.GameConfig) {
 	s.GameConfig = config
-	s.GameState = models.GameState{
+	s.GameState = internalModels.GameState{
 		InitialBoard: config.InitialBoard,
 		Board:        config.InitialBoard,
 	}
 	s.GameState.Board.Init()
 }
 
-func (s *SudokuManager) Step(state models.GameState) models.GameState {
+func (s *SudokuManager) Step(state internalModels.GameState) internalModels.GameState {
 	return state
 }
 

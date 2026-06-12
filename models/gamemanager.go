@@ -2,16 +2,18 @@ package models
 
 import (
 	"Lechenco/sudoku-solver/internal/models"
+	"Lechenco/sudoku-solver/internal/strategy"
 	"Lechenco/sudoku-solver/utils/format"
 )
 
 type GameConfig struct {
 	InitialBoard models.Board
+	Strategies   []strategy.Strategy
 }
 
 type GameManager interface {
 	Init(GameConfig)
-	Step(GameState) GameState
+	Step(models.GameState) models.GameState
 	StepAll()
 	ValidState() error
 }
