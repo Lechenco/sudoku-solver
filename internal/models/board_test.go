@@ -21,7 +21,7 @@ var initBoardString = strings.ReplaceAll(`
 ..3..6..9
 `, "\n", "")
 
-func TestInitRegions(t *testing.T) {
+func TestInit(t *testing.T) {
 	b := format.BoardFromString(initBoardString)
 	b.Init()
 
@@ -45,6 +45,13 @@ func TestInitRegions(t *testing.T) {
 				assert.Equal(uint8(j), cell.Position.ColumnNumber)
 			}
 		}
+	})
+	t.Run("Check candidates are correct", func(t *testing.T) {
+		assert := assert.New(t)
+		
+		assert.Equal(cells.ValuesSet(0), b.Cells[0][0].Candidates)
+		assert.Equal(cells.ValuesSet(0x1b0), b.Cells[0][1].Candidates)
+		assert.Equal(cells.ValuesSet(0x36), b.Cells[6][8].Candidates)
 	})
 	t.Run("Check all rows are correct", func(t *testing.T) {
 		assert := assert.New(t)

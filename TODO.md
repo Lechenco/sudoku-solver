@@ -3,8 +3,12 @@
 ## Foundation
 
 - [x] Verify if current state is legal
-- [ ] Set value in a cell should remove candidates from region
-- [ ] Set value with position should remove candidates from all related regions
+- [x] Set value in a cell should remove candidates from region
+- [x] Set value with position should remove candidates from all related regions
+- [x] Not allow to override cell Value
+- [x] Not allow to set cell value as zero
+- [x] Should scan board and clear all illegal candidates
+
 
 ## Core Functionality
 

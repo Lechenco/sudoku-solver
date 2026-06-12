@@ -39,6 +39,12 @@ func (b *Board) SetValue(position cells.Position, value cells.Value) (err error)
 		return
 	}
 
+	b.cleanFromRegions(position, value)
+
+	return
+}
+
+func (b *Board) cleanFromRegions(position cells.Position, value cells.Value) {
 	for _, region := range b.getRegions(position) {
 		region.RemoveCandidate(value)
 		if region.GetCandidates().IsEmpty() {
@@ -48,8 +54,6 @@ func (b *Board) SetValue(position cells.Position, value cells.Value) (err error)
 			b.CleanedRegions[index] = true
 		}
 	}
-
-	return
 }
 
 func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
@@ -75,6 +79,21 @@ func (b *Board) Valid() error {
 
 func (b *Board) Init() {
 	b.initPositions()
+	b.initRegions()
+	b.initCandidates()
+}
+
+func (b *Board) initCandidates() {
+	for _, rows := range b.Cells {
+		for _, cell := range rows {
+			if !cell.IsEmpty() {
+				b.cleanFromRegions(cell.Position, cell.Value)
+			}
+		}
+	}
+}
+
+func (b *Board) initRegions() {
 	b.AllRegions = []regions.Region{}
 	b.initColumns()
 	b.initRows()

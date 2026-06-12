@@ -10,10 +10,6 @@ type Cell struct {
 	Position   Position
 }
 
-func (c Cell) GetValue() Value {
-	return c.Value
-}
-
 func (c Cell) IsEmpty() bool {
 	return c.Value == 0
 }

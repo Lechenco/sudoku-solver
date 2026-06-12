@@ -20,7 +20,7 @@ func (c *linearRegion) GetCandidates() cells.ValuesSet {
 	candidate := cells.ValuesSet(0x0)
 
 	for _, cell := range c.Cells {
-		candidate |= *cell.Candidates
+		candidate |= cell.Candidates
 	}
 
 	return candidate

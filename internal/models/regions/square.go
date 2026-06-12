@@ -14,7 +14,7 @@ func (s SquareRegion) GetCandidates() cells.ValuesSet {
 
 	for _, cellRow := range s.Cells {
 		for _, cell := range cellRow {
-			candidate |= *cell.Candidates
+			candidate |= cell.Candidates
 		}
 	}
 
