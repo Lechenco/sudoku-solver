@@ -13,7 +13,7 @@ type GameConfig struct {
 
 type GameManager interface {
 	Init(GameConfig)
-	Step(models.GameState) models.GameState
+	Step() (models.Step, error)
 	StepAll()
 	ValidState() error
 }

@@ -19,8 +19,8 @@ func (s *SudokuManager) Init(config models.GameConfig) {
 	s.GameState.Board.Init()
 }
 
-func (s *SudokuManager) Step(state internalModels.GameState) internalModels.GameState {
-	return state
+func (s *SudokuManager) Step() (internalModels.Step, error) {
+	return internalModels.Step{}, nil
 }
 
 func (s *SudokuManager) StepAll() {

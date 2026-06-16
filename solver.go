@@ -15,15 +15,13 @@ var newGameManager = func() models.GameManager {
 	return &services.SudokuManager{}
 }
 
-func NewSudokuSolver(boardString string) (SudokuSolver, error) {
+func NewSudokuSolver(boardString string, strategies []strategy.Strategy) (SudokuSolver, error) {
 	solver := SudokuSolver{
 		newGameManager(),
 	}
 	solver.Init(models.GameConfig{
 		InitialBoard: format.BoardFromString(boardString),
-		Strategies: []strategy.Strategy{
-			strategy.NakedSingleStrategyInstance(),
-		},
+		Strategies: strategies,
 	})
 	err := solver.ValidState()
 

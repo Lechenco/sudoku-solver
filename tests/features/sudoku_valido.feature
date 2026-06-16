@@ -34,3 +34,18 @@ Funcionalidade: Identificar Sudokus inválidos
                   .......8.
                   """
              Então o jogo deve ser inválido
+
+        Cenário: Quadrado inicial com valores repetidos
+            Dado o tabuleiro abaixo:
+                  """
+                  5...7.3..
+                  6..195...
+                  .96....6.
+                  8...6...3
+                  4....3..1
+                  ....2...6
+                  .6..5.2..
+                  7..8.2..5
+                  .......8.
+                  """
+             Então o jogo deve ser inválido

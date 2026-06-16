@@ -4,8 +4,9 @@ import (
 	"errors"
 	"testing"
 
-	"Lechenco/sudoku-solver/internal/models/cells"
 	internalModels "Lechenco/sudoku-solver/internal/models"
+	"Lechenco/sudoku-solver/internal/models/cells"
+	"Lechenco/sudoku-solver/internal/strategy"
 	"Lechenco/sudoku-solver/models"
 
 	"github.com/stretchr/testify/assert"
@@ -23,8 +24,8 @@ func (s *spyGameManager) Init(config models.GameConfig) {
 	s.initConfig = config
 }
 
-func (s *spyGameManager) Step(state internalModels.GameState) internalModels.GameState {
-	return state
+func (s *spyGameManager) Step() (internalModels.GameState, error) {
+	return internalModels.GameState{}, nil
 }
 
 func (s *spyGameManager) StepAll() {}
@@ -42,7 +43,7 @@ func TestNewSudokuSolver_CallsInitAndValidState(t *testing.T) {
 	spy := &spyGameManager{}
 	newGameManager = func() models.GameManager { return spy }
 
-	solver, err := NewSudokuSolver("5")
+	solver, err := NewSudokuSolver("5", []strategy.Strategy{})
 
 	assert.Nil(err, "expected no error, got %v", err)
 	assert.True(spy.initCalled, "expected Init to be called")
@@ -60,7 +61,7 @@ func TestNewSudokuSolver_PropagatesValidStateError(t *testing.T) {
 	spy := &spyGameManager{validStateErr: expectedErr}
 	newGameManager = func() models.GameManager { return spy }
 
-	solver, err := NewSudokuSolver("5")
+	solver, err := NewSudokuSolver("5", []strategy.Strategy{})
 	assert.Equal(expectedErr, err)
 	assert.True(spy.initCalled)
 	assert.True(spy.validStateCalled)
