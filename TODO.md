@@ -1,5 +1,10 @@
 # Sudoku Solver - TODO
 
+## Patterns
+
+- [ ] IteratorCells interface
+
+
 ## Foundation
 
 - [x] Verify if current state is legal
@@ -8,7 +13,7 @@
 - [x] Not allow to override cell Value
 - [x] Not allow to set cell value as zero
 - [x] Should scan board and clear all illegal candidates
-
+- [ ] Verify if solution is impossible (has a empty cell with zero candidates)
 
 ## Core Functionality
 

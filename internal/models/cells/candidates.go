@@ -2,6 +2,19 @@ package cells
 
 type ValuesSet uint16
 
+func (c ValuesSet) GetValues() []Value {
+	values := []Value{}
+
+	for i := range 9 {
+		v := Value(i +1)
+		if c.Has(v) {
+			values = append(values, v)
+		}
+	}
+
+	return values
+}
+
 func (c ValuesSet) Has(value Value) bool {
 	return c&(1<<(value-1)) != 0
 }

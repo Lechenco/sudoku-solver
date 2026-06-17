@@ -61,7 +61,7 @@ func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
 	arr = append(arr, b.Rows[position.RowNumber])
 
 	row, col := utils.IndexSquareRegionPos(position)
-	arr = append(arr, b.Squares[3*col+row])
+	arr = append(arr, b.Squares[3*row+col])
 
 	return
 }

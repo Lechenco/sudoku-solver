@@ -20,6 +20,16 @@ func (s *SudokuManager) Init(config models.GameConfig) {
 }
 
 func (s *SudokuManager) Step() (internalModels.Step, error) {
+	for _, strateg := range s.GameConfig.Strategies {
+		step, err := strateg.Step(s.GameState)
+
+		if err != nil {
+			continue
+		}
+		
+		s.GameState.Steps = append(s.GameState.Steps, *step)
+		return *step, nil
+	}
 	return internalModels.Step{}, nil
 }
 

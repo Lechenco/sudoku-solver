@@ -24,8 +24,8 @@ func (s *spyGameManager) Init(config models.GameConfig) {
 	s.initConfig = config
 }
 
-func (s *spyGameManager) Step() (internalModels.GameState, error) {
-	return internalModels.GameState{}, nil
+func (s *spyGameManager) Step() (internalModels.Step, error) {
+	return internalModels.Step{}, nil
 }
 
 func (s *spyGameManager) StepAll() {}

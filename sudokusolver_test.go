@@ -33,7 +33,6 @@ func aoUtilizarAEstratgia(ctx context.Context, estrategia string) (context.Conte
 	switch estrategia {
 	case "naked_single":
 		strat = strategy.NakedSingleStrategyInstance()
-		break
 	default:
 		return ctx, errors.New("Estratégia não implementada.")
 	}
@@ -53,7 +52,7 @@ func oPrximoPassoNaPosio(ctx context.Context, value, row, column int) (context.C
 		return ctx, err
 	}
 	if step.Value != cells.Value(value) {
-		return ctx, fmt.Errorf("Esperava o valor %v mas encontrou o valor %v", value, step.Value)
+		return ctx, fmt.Errorf("Esperava o valor %v mas encontrou o valor %v na posicao (%v)", value, step.Value, step.Position)
 	}
 	if step.Position.ColumnNumber != uint8(column) ||
 		step.Position.RowNumber != uint8(row) {
@@ -69,6 +68,16 @@ func oJogoDeveSerInvlido(ctx context.Context) error {
 
 	if sudokuctx.err == nil {
 		return errors.New("O jogo foi considerado válido")
+	}
+
+	return nil
+}
+
+func tabuleiroVlido(ctx context.Context) error {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+
+	if sudokuctx.err != nil {
+		return fmt.Errorf("O jogo foi considerado inválido, %v", sudokuctx.err)
 	}
 
 	return nil
@@ -110,6 +119,7 @@ func TestFeature(t *testing.T) {
 
 func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Step(`^o jogo deve ser inválido$`, oJogoDeveSerInvlido)
+	sc.Step(`^tabuleiro válido$`, tabuleiroVlido)
 	sc.Step(`^o tabuleiro abaixo:$`, oTabuleiroAbaixo)
 	sc.Step(`^a estratégia "([^"]*)"$`, aoUtilizarAEstratgia)
 	sc.Step(`^o próximo passo é (\d+) na posição \((\d+),(\d+)\)$`, oPrximoPassoNaPosio)

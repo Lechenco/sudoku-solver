@@ -12,14 +12,32 @@ Funcionalidade: Estratégia Naked Single
             Dado a estratégia "naked_single"
             E o tabuleiro abaixo:
                   """
-                  536278.34
-                  6..195...
-                  .98....6.
+                  516278.34
+                  2..1.5...
+                  3.8....6.
                   8...6...3
-                  4....3..1
-                  7...2...6
+                  6....3..1
+                  4.......6
                   .6..5.2..
-                  7..8.3..5
+                  7..8....5
                   .......8.
                   """
-            Então o próximo passo é 1 na posição (0,6)
+            E tabuleiro válido
+            Então o próximo passo é 9 na posição (0,6)
+
+        Cenário: Naked Single na coluna
+            Dado a estratégia "naked_single"
+            E o tabuleiro abaixo:
+                  """
+                  516278934
+                  2....5...
+                  3.8....6.
+                  8...6...3
+                  6....3...
+                  4.......6
+                  .6..5.2..
+                  72.8....5
+                  1......8.
+                  """
+            E tabuleiro válido
+            Então o próximo passo é 9 na posição (6,0)

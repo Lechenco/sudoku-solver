@@ -169,6 +169,24 @@ func TestSetValue(t *testing.T) {
 		assert.False(b.Squares[0].GetCandidates().Has(8))
 	})
 
+	t.Run("SetValue should remove candidate from correct regions (mirror)", func(t *testing.T) {
+		assert := assert.New(t)
+
+		assert.True(b.Columns[7].GetCandidates().Has(4))
+		assert.True(b.Rows[2].GetCandidates().Has(4))
+		assert.True(b.Squares[2].GetCandidates().Has(4))
+
+		err := b.SetValue(cells.Position{
+			RowNumber:    2,
+			ColumnNumber: 7,
+		}, cells.Value(4))
+
+		assert.Nil(err)
+		assert.False(b.Columns[7].GetCandidates().Has(4))
+		assert.False(b.Rows[2].GetCandidates().Has(4))
+		assert.False(b.Squares[2].GetCandidates().Has(4))
+	})
+
 	t.Run("SetValue should check if a region became completed", func(t *testing.T) {
 		assert := assert.New(t)
 
