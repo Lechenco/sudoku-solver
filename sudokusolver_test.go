@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"regexp"
 	"strings"
 	"testing"
 
@@ -90,8 +91,8 @@ func oTabuleiroAbaixo(ctx context.Context, arg1 *godog.DocString) (context.Conte
 		sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
 		strateg = sudokuctx.strategies
 	}
-
-	s := strings.Trim(arg1.Content, " ")
+	re := regexp.MustCompile("[ ┌─┬┐│├─┼┤└─┴┘]")
+	s := re.ReplaceAllString(arg1.Content, "")
 	solver, err := sudokusolver.NewSudokuSolver(strings.ReplaceAll(s, "\n", ""),
 		strateg,
 	)

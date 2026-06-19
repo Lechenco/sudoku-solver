@@ -1,51 +1,48 @@
-# Sudoku Solver - TODO
+# Solucionador de Sudoku - TODO
 
-## Patterns
+## Padrões
 
-- [ ] IteratorCells interface
+- [ ] Interface IteratorCells
+- [ ] Interface Step com método TakeStep (SetValueStep, RemoveCandidatesStep)
 
+- [ ] Adicionar métricas ao passo (tempo gasto, comparações)
 
-## Foundation
+## Fundamentos
 
-- [x] Verify if current state is legal
-- [x] Set value in a cell should remove candidates from region
-- [x] Set value with position should remove candidates from all related regions
-- [x] Not allow to override cell Value
-- [x] Not allow to set cell value as zero
-- [x] Should scan board and clear all illegal candidates
-- [ ] Verify if solution is impossible (has a empty cell with zero candidates)
+- [x] Verificar se o estado atual é válido
+- [x] Definir um valor em uma célula deve remover candidatos da região
+- [x] Definir um valor com uma posição deve remover candidatos de todas as regiões relacionadas
+- [x] Não permitir sobrescrever o valor da célula
+- [x] Não permitir definir o valor da célula como zero
+- [x] Deve percorrer o tabuleiro e remover todos os candidatos inválidos
+- [ ] Verificar se a solução é impossível (possui uma célula vazia com zero candidatos)
 
-## Core Functionality
+## Funcionalidades Principais
 
-- [x] Implement sudoku puzzle parser
-- [ ] Create constraint validation logic
-- [ ] Build backtracking solver algorithm
-- [ ] Add constraint propagation optimization
+- [x] Implementar analisador sintático do quebra-cabeça Sudoku
+- [ ] Criar lógica de validação de restrições
 
-## Features
+## Recursos
 
-- [ ] Input validation for puzzle format
-- [ ] Multiple solver strategies (backtracking, constraint propagation)
-- [ ] Solution verification
-- [ ] Difficulty level detection
-- [ ] Performance profiling
+- [ ] Validação de entrada para o formato do quebra-cabeça
+- [ ] Verificação da solução
+- [ ] Compatível com quebra-cabeças de diferentes tamanhos
 
-## Testing
+## Testes
 
-- [ ] Unit tests for solver
-- [ ] Test with various difficulty levels
-- [x] Edge case testing (invalid puzzles, no solution)
-- [ ] Performance benchmarks
+- [ ] Testes unitários para o solucionador
+- [ ] Testes com vários níveis de dificuldade
+- [x] Testes de casos extremos (quebra-cabeças inválidos, sem solução)
+- [ ] Benchmarks de desempenho
 
-## Documentation
+## Documentação
 
-- [ ] API documentation
-- [ ] Usage examples
-- [ ] Algorithm explanation
-- [ ] README with setup instructions
+- [ ] Exemplos de uso
+- [ ] Explicação do algoritmo
+- [ ] Arquivo README com instruções de configuração
 
-## UI/Output
+## Interface/Saída
 
-- [ ] Pretty print solution
-- [ ] Display step-by-step solving process
-- [ ] Export results to file
+- [x] Impressão formatada da solução
+- [ ] Exibição do processo de resolução passo a passo
+- [ ] Exportação dos resultados para um Arquivo
