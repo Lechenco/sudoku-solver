@@ -2,7 +2,7 @@ package models
 
 import (
 	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/step"
+	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/internal/strategy"
 	"Lechenco/sudoku-solver/utils/format"
 )
@@ -14,7 +14,7 @@ type GameConfig struct {
 
 type GameManager interface {
 	Init(GameConfig)
-	Step() (step.Step, error)
+	Step() (gamestate.Step, error)
 	StepAll()
 	ValidState() error
 }

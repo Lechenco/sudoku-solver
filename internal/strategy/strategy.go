@@ -1,11 +1,9 @@
 package strategy
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/step"
+	"Lechenco/sudoku-solver/internal/models/gamestate"
 )
 
-
 type Strategy interface {
-	Step(models.GameState) (*step.Step, error)
+	Step(gamestate.GameState) (gamestate.Step, error)
 }

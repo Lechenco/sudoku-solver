@@ -52,13 +52,13 @@ func oPrximoPassoNaPosio(ctx context.Context, value, row, column int) (context.C
 	if err != nil {
 		return ctx, err
 	}
-	if step.Value != cells.Value(value) {
-		return ctx, fmt.Errorf("Esperava o valor %v mas encontrou o valor %v na posicao (%v)", value, step.Value, step.Position)
+	if step.GetValue() != cells.Value(value) {
+		return ctx, fmt.Errorf("Esperava o valor %v mas encontrou o valor %v na posicao (%v)", value, step.GetValue(), step.GetPosition())
 	}
-	if step.Position.ColumnNumber != uint8(column) ||
-		step.Position.RowNumber != uint8(row) {
+	if step.GetPosition().ColumnNumber != uint8(column) ||
+		step.GetPosition().RowNumber != uint8(row) {
 		return ctx, fmt.Errorf("Esperava a posição (%d,%d) mas encontrou a posição (%v)",
-			row, column, step.Position)
+			row, column, step.GetPosition())
 	}
 
 	return ctx, nil
@@ -73,7 +73,7 @@ func noFoiPossvelDeterminarOPrximoPasso(ctx context.Context) (context.Context, e
 		return ctx, nil
 	}
 	
-	return ctx, fmt.Errorf("Não esperava um próximo passo, mas encontrou o valor %v na posição %v", step.Value, step.Position)
+	return ctx, fmt.Errorf("Não esperava um próximo passo, mas encontrou o valor %v na posição %v", step.GetValue(), step.GetPosition())
 }
 
 func oJogoDeveSerInvlido(ctx context.Context) error {
