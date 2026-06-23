@@ -1,9 +1,11 @@
 package models
 
+import "Lechenco/sudoku-solver/internal/models/step"
+
 type GameState struct {
 	Board        Board
 	InitialBoard Board
-	Steps        []Step
+	Steps        []step.Step
 }
 
 func (g *GameState) Valid() error {

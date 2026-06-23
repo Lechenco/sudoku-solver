@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	internalModels "Lechenco/sudoku-solver/internal/models"
 	"Lechenco/sudoku-solver/internal/models/cells"
+	"Lechenco/sudoku-solver/internal/models/step"
 	"Lechenco/sudoku-solver/internal/strategy"
 	"Lechenco/sudoku-solver/models"
 
@@ -24,8 +24,8 @@ func (s *spyGameManager) Init(config models.GameConfig) {
 	s.initConfig = config
 }
 
-func (s *spyGameManager) Step() (internalModels.Step, error) {
-	return internalModels.Step{}, nil
+func (s *spyGameManager) Step() (step.Step, error) {
+	return step.Step{}, nil
 }
 
 func (s *spyGameManager) StepAll() {}

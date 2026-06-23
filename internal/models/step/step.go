@@ -1,4 +1,4 @@
-package models
+package step
 
 import "Lechenco/sudoku-solver/internal/models/cells"
 
