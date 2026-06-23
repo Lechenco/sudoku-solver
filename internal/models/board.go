@@ -68,8 +68,8 @@ func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
 
 func (b *Board) Valid() error {
 
-	for _, col := range b.AllRegions {
-		if err := col.Valid(); err != nil {
+	for _, region := range b.AllRegions {
+		if err := region.Valid(); err != nil {
 			return err
 		}
 	}

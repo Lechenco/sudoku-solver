@@ -39,6 +39,8 @@ func (c *linearRegion) Valid() error {
 				return fmt.Errorf("Valor duplicado na mesma região: [%v]", cell)
 			}
 			onRegion.Add(cell.Value)
+		} else if cell.Candidates.IsEmpty() {
+			return fmt.Errorf("Célula vazia com nenhum candidato possível: [%v]", cell)
 		}
 	}
 	return nil

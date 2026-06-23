@@ -64,11 +64,33 @@ func oPrximoPassoNaPosio(ctx context.Context, value, row, column int) (context.C
 	return ctx, nil
 }
 
+func noFoiPossvelDeterminarOPrximoPasso(ctx context.Context) (context.Context, error) {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+
+	step, err := sudokuctx.solver.Step()
+
+	if err != nil {
+		return ctx, nil
+	}
+	
+	return ctx, fmt.Errorf("Não esperava um próximo passo, mas encontrou o valor %v na posição %v", step.Value, step.Position)
+}
+
 func oJogoDeveSerInvlido(ctx context.Context) error {
 	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
 
 	if sudokuctx.err == nil {
 		return errors.New("O jogo foi considerado válido")
+	}
+
+	return nil
+}
+
+func oJogoDeveSerVlido(ctx context.Context) error {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+
+	if sudokuctx.err != nil {
+		return fmt.Errorf("O jogo foi considerado inválido: %s", sudokuctx.err)
 	}
 
 	return nil
@@ -120,8 +142,10 @@ func TestFeature(t *testing.T) {
 
 func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Step(`^o jogo deve ser inválido$`, oJogoDeveSerInvlido)
+	sc.Step(`^o jogo deve ser válido$`, oJogoDeveSerVlido)
 	sc.Step(`^tabuleiro válido$`, tabuleiroVlido)
 	sc.Step(`^o tabuleiro abaixo:$`, oTabuleiroAbaixo)
 	sc.Step(`^a estratégia "([^"]*)"$`, aoUtilizarAEstratgia)
 	sc.Step(`^o próximo passo é (\d+) na posição \((\d+),(\d+)\)$`, oPrximoPassoNaPosio)
+	sc.Step(`^não foi possível determinar o próximo passo$`, noFoiPossvelDeterminarOPrximoPasso)
 }

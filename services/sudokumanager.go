@@ -2,7 +2,9 @@ package services
 
 import (
 	internalModels "Lechenco/sudoku-solver/internal/models"
+	"Lechenco/sudoku-solver/internal/models/step"
 	"Lechenco/sudoku-solver/models"
+	"errors"
 )
 
 type SudokuManager struct {
@@ -19,7 +21,7 @@ func (s *SudokuManager) Init(config models.GameConfig) {
 	s.GameState.Board.Init()
 }
 
-func (s *SudokuManager) Step() (internalModels.Step, error) {
+func (s *SudokuManager) Step() (step.Step, error) {
 	for _, strateg := range s.GameConfig.Strategies {
 		step, err := strateg.Step(s.GameState)
 
@@ -30,7 +32,7 @@ func (s *SudokuManager) Step() (internalModels.Step, error) {
 		s.GameState.Steps = append(s.GameState.Steps, *step)
 		return *step, nil
 	}
-	return internalModels.Step{}, nil
+	return step.Step{}, errors.New("Não foi possível determinar o próximo passo")
 }
 
 func (s *SudokuManager) StepAll() {
