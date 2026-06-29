@@ -1,11 +1,13 @@
 package cells
 
+import "math/bits"
+
 type ValuesSet uint16
 
 func (c ValuesSet) GetValues() []Value {
 	values := []Value{}
 
-	for i := range 9 {
+	for i := range bits.Len(uint(c)) {
 		v := Value(i +1)
 		if c.Has(v) {
 			values = append(values, v)
@@ -13,6 +15,10 @@ func (c ValuesSet) GetValues() []Value {
 	}
 
 	return values
+}
+
+func (c ValuesSet) GetNumberOfValues() int  {
+	return bits.OnesCount16(uint16(c))
 }
 
 func (c ValuesSet) Has(value Value) bool {

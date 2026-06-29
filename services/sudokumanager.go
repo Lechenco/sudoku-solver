@@ -29,7 +29,8 @@ func (s *SudokuManager) Step() (gamestate.Step, error) {
 		}
 
 		s.GameState.Steps = append(s.GameState.Steps, step)
-		return step, nil
+
+		return step, step.TakeStep(s.GameState.Board)
 	}
 	return nil, errors.New("Não foi possível determinar o próximo passo")
 }

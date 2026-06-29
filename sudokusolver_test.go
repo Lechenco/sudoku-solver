@@ -3,7 +3,9 @@ package sudokusolver_test
 import (
 	sudokusolver "Lechenco/sudoku-solver"
 	"Lechenco/sudoku-solver/internal/models/cells"
+	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/internal/strategy"
+	"Lechenco/sudoku-solver/services"
 	"context"
 	"errors"
 	"fmt"
@@ -19,6 +21,7 @@ type sudokuCtxKey struct{}
 type sudokuCtx struct {
 	solver     sudokusolver.SudokuSolver
 	strategies []strategy.Strategy
+	lastStep   gamestate.Step
 	err        error
 }
 
@@ -52,8 +55,10 @@ func oPrximoPassoNaPosio(ctx context.Context, value, row, column int) (context.C
 	if err != nil {
 		return ctx, err
 	}
-	if step.GetValue() != cells.Value(value) {
-		return ctx, fmt.Errorf("Esperava o valor %v mas encontrou o valor %v na posicao (%v)", value, step.GetValue(), step.GetPosition())
+	if s, ok := step.(*gamestate.SetValueStep); ok {
+		if s.Value != cells.Value(value) {
+			return ctx, fmt.Errorf("Esperava o valor %v mas encontrou o valor %v na posicao (%v)", value, s.Value, step.GetPosition())
+		}
 	}
 	if step.GetPosition().ColumnNumber != uint8(column) ||
 		step.GetPosition().RowNumber != uint8(row) {
@@ -61,7 +66,12 @@ func oPrximoPassoNaPosio(ctx context.Context, value, row, column int) (context.C
 			row, column, step.GetPosition())
 	}
 
-	return ctx, nil
+	return context.WithValue(ctx, sudokuCtxKey{}, sudokuCtx{
+		strategies: sudokuctx.strategies,
+		lastStep: step,
+		solver: sudokuctx.solver,
+		err: sudokuctx.err,
+	}), nil
 }
 
 func noFoiPossvelDeterminarOPrximoPasso(ctx context.Context) (context.Context, error) {
@@ -72,8 +82,39 @@ func noFoiPossvelDeterminarOPrximoPasso(ctx context.Context) (context.Context, e
 	if err != nil {
 		return ctx, nil
 	}
-	
-	return ctx, fmt.Errorf("Não esperava um próximo passo, mas encontrou o valor %v na posição %v", step.GetValue(), step.GetPosition())
+
+	return ctx, fmt.Errorf("Não esperava um próximo passo, mas encontrou o passo %v", step)
+}
+
+func tomeEssePasso(ctx context.Context) error {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+
+	if sudokuctx.lastStep == nil {
+		return errors.New("Nenhum passo foi encontrado")
+	}
+
+	manager, ok := sudokuctx.solver.GameManager.(*services.SudokuManager)
+
+	if !ok {
+		return errors.New("Não foi possível recuperar o GameManager")
+	}
+
+	board := manager.GameState.Board
+	position := sudokuctx.lastStep.GetPosition()
+	cell := board.Cells[position.RowNumber][position.ColumnNumber]
+	switch s := sudokuctx.lastStep.(type) {
+	case *gamestate.SetValueStep:
+		if cell.Value != s.Value {
+			return fmt.Errorf("Passo %v não foi tomado na célula %v", s, cell)
+		}
+
+	case *gamestate.RemoveCandidatesStep:
+		break
+	default:
+		return errors.New("Tipo de passo não reconhecido.")
+	}
+
+	return nil
 }
 
 func oJogoDeveSerInvlido(ctx context.Context) error {
@@ -148,4 +189,5 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Step(`^a estratégia "([^"]*)"$`, aoUtilizarAEstratgia)
 	sc.Step(`^o próximo passo é (\d+) na posição \((\d+),(\d+)\)$`, oPrximoPassoNaPosio)
 	sc.Step(`^não foi possível determinar o próximo passo$`, noFoiPossvelDeterminarOPrximoPasso)
+	sc.Step(`^tome esse passo$`, tomeEssePasso)
 }

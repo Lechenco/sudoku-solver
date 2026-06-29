@@ -28,6 +28,7 @@ Funcionalidade: Estratégia Naked Single
                   """
             E tabuleiro válido
             Então o próximo passo é 9 na posição (0,6)
+            Então tome esse passo
 
         Cenário: Naked Single na coluna
             Dado a estratégia "naked_single"
@@ -49,6 +50,7 @@ Funcionalidade: Estratégia Naked Single
                   """
             E tabuleiro válido
             Então o próximo passo é 9 na posição (6,0)
+            Então tome esse passo
 
         Cenário: Naked Single no quadrado
             Dado a estratégia "naked_single"
@@ -70,6 +72,7 @@ Funcionalidade: Estratégia Naked Single
                   """
             E tabuleiro válido
             Então o próximo passo é 3 na posição (1,4)
+            Então tome esse passo
 
         Cenário: Naked Single na linha e coluna e quadrado
             Dado a estratégia "naked_single"
@@ -91,6 +94,7 @@ Funcionalidade: Estratégia Naked Single
                   """
             E tabuleiro válido
             Então o próximo passo é 8 na posição (5,6)
+            Então tome esse passo
 
     Regra: Nenhum candidato possível
         Cenário: Tabuleiro não apresenta nenhum passo com naked_single

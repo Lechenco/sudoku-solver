@@ -5,6 +5,7 @@ import (
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"errors"
 	"sync"
+	"time"
 )
 
 type nakedSingleStrategy struct {
@@ -13,13 +14,19 @@ type nakedSingleStrategy struct {
 
 func (n *nakedSingleStrategy) Step(gameState gamestate.GameState) (
 	step gamestate.Step, err error) {
-	for c := range iterators.CellsIterator(gameState.Board.GetCells()) {
-		values := c.Candidates.GetValues()
-		if len(values) == 1 {
+	data := gamestate.StepData{}
+	start := time.Now()
+	for c := range iterators.EmptyCellsIterator(gameState.Board.GetCells()) {
+		data.Comparations += 1
+		if c.Candidates.GetNumberOfValues() == 1 {
+			values := c.Candidates.GetValues()
+			data.ExecutionTime = time.Since(start)
+
 			step = &gamestate.SetValueStep{
 				Position:     c.Position,
 				Value:        values[0],
 				StrategyName: n.name,
+				StepData: data,
 			}
 		}
 
