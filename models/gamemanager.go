@@ -15,8 +15,9 @@ type GameConfig struct {
 type GameManager interface {
 	Init(GameConfig)
 	Step() (gamestate.Step, error)
-	StepAll()
+	StepAll() error
 	ValidState() error
+	Finished() bool
 }
 
 func BoardOfGameState(board string) models.Board {

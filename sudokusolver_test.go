@@ -86,6 +86,22 @@ func noFoiPossvelDeterminarOPrximoPasso(ctx context.Context) (context.Context, e
 	return ctx, fmt.Errorf("Não esperava um próximo passo, mas encontrou o passo %v", step)
 }
 
+func termineOTabuleiro(ctx context.Context) error {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+    
+	err := sudokuctx.solver.StepAll()
+
+	if err != nil {
+		return fmt.Errorf("Não foi possível completar o tabuleiro, erro: %v", err)
+	}
+	
+	if !sudokuctx.solver.Finished() {
+		return errors.New("Tabuleiro não foi completado.")
+	}
+
+	return nil
+}
+
 func tomeEssePasso(ctx context.Context) error {
 	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
 
@@ -190,4 +206,5 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Step(`^o próximo passo é (\d+) na posição \((\d+),(\d+)\)$`, oPrximoPassoNaPosio)
 	sc.Step(`^não foi possível determinar o próximo passo$`, noFoiPossvelDeterminarOPrximoPasso)
 	sc.Step(`^tome esse passo$`, tomeEssePasso)
+	sc.Step(`^termine o tabuleiro$`, termineOTabuleiro)
 }

@@ -22,7 +22,7 @@ func (s *SetValueStep) GetStrategyName() string {
 }
 
 func (s *SetValueStep) TakeStep(board models.Board) error {
-	return board.Cells.SetValue(s.Position, s.Value)
+	return board.SetValue(s.Position, s.Value)
 }
 
 func (s *SetValueStep) GetData() StepData {

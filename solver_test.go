@@ -28,11 +28,15 @@ func (s *spyGameManager) Step() (gamestate.Step, error) {
 	return nil, nil
 }
 
-func (s *spyGameManager) StepAll() {}
+func (s *spyGameManager) StepAll() error { return nil }
 
 func (s *spyGameManager) ValidState() error {
 	s.validStateCalled = true
 	return s.validStateErr
+}
+
+func (s *spyGameManager) Finished() bool {
+	return false
 }
 
 func TestNewSudokuSolver_CallsInitAndValidState(t *testing.T) {

@@ -4,6 +4,7 @@ import (
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/models"
 	"errors"
+	"fmt"
 )
 
 type SudokuManager struct {
@@ -35,10 +36,30 @@ func (s *SudokuManager) Step() (gamestate.Step, error) {
 	return nil, errors.New("Não foi possível determinar o próximo passo")
 }
 
-func (s *SudokuManager) StepAll() {
+func (s *SudokuManager) StepAll() error {
+	for {
+		step, err := s.Step()
 
+		fmt.Println(step, err)
+
+		if err != nil {
+			return err
+		}
+		if valid := s.ValidState(); valid != nil {
+			return valid
+		}
+		if s.Finished() {
+			break
+		}
+	}
+
+	return nil
 }
 
 func (s *SudokuManager) ValidState() error {
 	return s.GameState.Valid()
+}
+
+func (s *SudokuManager) Finished() bool {
+	return s.GameState.Board.Finished()
 }

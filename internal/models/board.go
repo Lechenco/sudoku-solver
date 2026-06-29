@@ -22,6 +22,15 @@ type Board struct {
 	CleanedRegions []bool
 }
 
+func (b *Board) Finished() (res bool) {
+	res = true
+	for _, v := range b.CleanedRegions {
+		res = res && v
+	}
+
+	return
+}
+
 func (b *Board) GetCells() CellGrid {
 	return b.Cells
 }

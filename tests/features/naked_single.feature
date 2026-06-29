@@ -117,3 +117,26 @@ Funcionalidade: Estratégia Naked Single
                   """
             E tabuleiro válido
             Então não foi possível determinar o próximo passo
+
+    Regra: Finalizar tabuleiro
+        Cenário: Tabuleiro faltando apenas dois números
+            Dado a estratégia "naked_single"
+            E o tabuleiro abaixo:
+            """
+                ┌───────┬───────┬───────┐
+                │ 5 1 6 │ 2 7 8 │ 9 3 4 │ 
+                │ 2 9 4 │ 1 3 5 │ 6 8 7 │ 
+                │ 3 7 8 │ 6 4 9 │ 1 5 2 │ 
+                ├───────┼───────┼───────┤
+                │ 8 4 1 │ 7 2 6 │ 5 9 3 │ 
+                │ 6 5 2 │ 8 9 3 │ 7 4 _ │ 
+                │ 9 3 7 │ 5 1 4 │ 8 2 6 │ 
+                ├───────┼───────┼───────┤
+                │ 4 6 3 │ _ 5 7 │ 2 1 8 │ 
+                │ 7 2 9 │ 4 8 1 │ 3 6 5 │ 
+                │ 1 8 5 │ 3 6 2 │ 4 7 9 │ 
+                └───────┴───────┴───────┘
+                  """
+            E tabuleiro válido
+            Então termine o tabuleiro
+            
