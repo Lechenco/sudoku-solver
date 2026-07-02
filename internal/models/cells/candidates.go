@@ -1,6 +1,8 @@
 package cells
 
-import "math/bits"
+import (
+	"math/bits"
+)
 
 type ValuesSet uint16
 
@@ -39,4 +41,15 @@ func (c ValuesSet) IsEmpty() bool {
 
 func (c *ValuesSet) Clear() {
 	*c = 0x0
+}
+
+func Uniques(values ...ValuesSet) ValuesSet  {
+	mask := ValuesSet(0x1FF) // mask of remaining unique bits
+	seen := ValuesSet(0x0) // bits already seen
+
+	for _, v := range values {
+		mask &^= v & seen // erase from mask bits been seen twice
+		seen |= v // Update seen bits 
+	}
+	return mask & seen
 }

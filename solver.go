@@ -11,6 +11,7 @@ type SudokuSolver struct {
 	models.GameManager
 }
 
+
 var newGameManager = func() models.GameManager {
 	return &services.SudokuManager{}
 }
@@ -21,7 +22,7 @@ func NewSudokuSolver(boardString string, strategies []strategy.Strategy) (Sudoku
 	}
 	solver.Init(models.GameConfig{
 		InitialBoard: format.BoardFromString(boardString),
-		Strategies: strategies,
+		Strategies:   strategies,
 	})
 	err := solver.ValidState()
 

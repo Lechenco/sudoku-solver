@@ -8,6 +8,8 @@ import (
 type Region interface {
 	GetCandidates() cells.ValuesSet
 	GetCell(index uint8) *cells.Cell
+	GetCells() []*cells.Cell
+	GetCellsCandidates() []cells.ValuesSet
 	Valid() error
 	RemoveCandidate(value cells.Value)
 }
@@ -51,3 +53,18 @@ func (c *linearRegion) RemoveCandidate(value cells.Value) {
 		cell.Candidates.Remove(value)
 	}
 }
+
+func (c *linearRegion) GetCells() []*cells.Cell {
+	return c.Cells[:]
+}
+
+func (c *linearRegion) GetCellsCandidates() []cells.ValuesSet {
+	cs := c.GetCells()
+	candidates := make([]cells.ValuesSet, len(cs))
+
+	for i, cell := range cs{
+		candidates[i] = cell.Candidates
+	}
+	return candidates
+}
+

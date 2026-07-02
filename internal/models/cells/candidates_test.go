@@ -77,3 +77,53 @@ func TestHas(t *testing.T) {
 		assert.False(set.Has(cells.Value(6)))
 	})
 }
+
+func TestUniques(t *testing.T) {
+	t.Run("Unique bits between two set", func(t *testing.T) {
+		assert := assert.New(t)
+		res := cells.Uniques(cells.ValuesSet(0b011), cells.ValuesSet(0b110))
+
+		assert.True(res.Has(1))
+		assert.False(res.Has(2))
+		assert.True(res.Has(3))
+	})
+	
+	t.Run("Unique bits between three set", func(t *testing.T) {
+		assert := assert.New(t)
+		res := cells.Uniques(
+			cells.ValuesSet(0b011), 
+			cells.ValuesSet(0b110),
+			cells.ValuesSet(0b001),
+		)
+
+		assert.False(res.Has(1))
+		assert.False(res.Has(2))
+		assert.True(res.Has(3))
+	})
+
+	t.Run("Unique bits between severous sets", func(t *testing.T) {
+		assert := assert.New(t)
+		res := cells.Uniques(
+			cells.ValuesSet(0b00011), 
+			cells.ValuesSet(0b11101),
+			cells.ValuesSet(0b11011),
+			cells.ValuesSet(0b01001),
+		)
+
+		assert.False(res.Has(1))
+		assert.False(res.Has(2))
+		assert.True(res.Has(3))
+		assert.False(res.Has(4))
+		assert.False(res.Has(5))
+	})
+
+	t.Run("Unique bits between sets exclude zeros", func(t *testing.T) {
+		assert := assert.New(t)
+		res := cells.Uniques(cells.ValuesSet(0b011), cells.ValuesSet(0b010))
+
+		assert.True(res.Has(1))
+		assert.False(res.Has(2))
+		assert.False(res.Has(3))
+	})
+	
+}

@@ -104,8 +104,8 @@ func (b *Board) initCandidates() {
 
 func (b *Board) initRegions() {
 	b.AllRegions = []regions.Region{}
-	b.initColumns()
 	b.initRows()
+	b.initColumns()
 	b.initSquares()
 	b.CleanedRegions = make([]bool, len(b.AllRegions))
 }

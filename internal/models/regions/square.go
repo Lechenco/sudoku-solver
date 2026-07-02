@@ -3,6 +3,7 @@ package regions
 import (
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"fmt"
+	"slices"
 )
 
 type SquareRegion struct {
@@ -54,3 +55,22 @@ func (s *SquareRegion) RemoveCandidate(value cells.Value) {
 		}
 	}
 }
+
+func (s *SquareRegion) GetCells() []*cells.Cell {
+	return slices.Concat(
+		s.Cells[0][:],
+		s.Cells[1][:],
+		s.Cells[2][:],
+	)
+}
+
+func (s *SquareRegion) GetCellsCandidates() []cells.ValuesSet {
+	cs := s.GetCells()
+	candidates := make([]cells.ValuesSet, len(cs))
+
+	for i, cell := range cs{
+		candidates[i] = cell.Candidates
+	}
+	return candidates
+}
+

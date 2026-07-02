@@ -30,5 +30,5 @@ func (s *SetValueStep) GetData() StepData {
 }
 
 func (s *SetValueStep) String() string {
-	return fmt.Sprintf("{SetValueStep[%v]: %v}", s.Position, s.Value)
+	return fmt.Sprintf("{SetValueStep[%v]: %v, %v}", s.Position, s.Value, s.StepData)
 }

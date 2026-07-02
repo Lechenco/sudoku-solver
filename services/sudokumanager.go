@@ -25,7 +25,7 @@ func (s *SudokuManager) Step() (gamestate.Step, error) {
 	for _, strateg := range s.GameConfig.Strategies {
 		step, err := strateg.Step(s.GameState)
 
-		if err != nil {
+		if err != nil || step == nil {
 			continue
 		}
 

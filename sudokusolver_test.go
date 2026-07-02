@@ -8,6 +8,7 @@ import (
 	"Lechenco/sudoku-solver/services"
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"regexp"
 	"strings"
@@ -37,6 +38,8 @@ func aoUtilizarAEstratgia(ctx context.Context, estrategia string) (context.Conte
 	switch estrategia {
 	case "naked_single":
 		strat = strategy.NakedSingleStrategyInstance()
+	case "hidden_single":
+		strat = strategy.HiddenSingleStrategyInstance()
 	default:
 		return ctx, errors.New("Estratégia não implementada.")
 	}
@@ -181,7 +184,9 @@ func oTabuleiroAbaixo(ctx context.Context, arg1 *godog.DocString) (context.Conte
 	}), nil
 }
 
+var tags = flag.String("godog.tags", "", "tags to execute")
 func TestFeature(t *testing.T) {
+
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
 		Options: &godog.Options{
@@ -189,6 +194,7 @@ func TestFeature(t *testing.T) {
 			Paths:    []string{"tests/features"},
 			TestingT: t, // Testing instance that will run subtests.
 			Dialect:  "pt",
+			Tags: *tags,
 		},
 	}
 
