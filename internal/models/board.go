@@ -41,7 +41,7 @@ func (b *Board) GetCells() CellGrid {
 	return b.Cells
 }
 
-// SetValue try to set the value at position, if success it checks if the board 
+// SetValue try to set the value at position, if success it checks if the board
 // is still valid and clean the value candidate from related regions.
 func (b *Board) SetValue(position cells.Position, value cells.Value) (err error) {
 	err = b.Cells.SetValue(position, value)
@@ -61,8 +61,8 @@ func (b *Board) SetValue(position cells.Position, value cells.Value) (err error)
 	return
 }
 
-// cleanFromRegions remove the value candidate from all regions which the 
-// position cell is related. 
+// cleanFromRegions remove the value candidate from all regions which the
+// position cell is related.
 //
 // After remove the candidates, updates if the region is cleaned.
 func (b *Board) cleanFromRegions(position cells.Position, value cells.Value) {
@@ -88,7 +88,7 @@ func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
 	return
 }
 
-// Valid verify the puzzle restrictions in all board regions, 
+// Valid verify the puzzle restrictions in all board regions,
 // returning a error if any of it was crossed.
 func (b *Board) Valid() error {
 
@@ -101,18 +101,18 @@ func (b *Board) Valid() error {
 	return nil
 }
 
+// Init set all positions, regions and candidates from each cell in the board
 func (b *Board) Init() {
 	b.initPositions()
 	b.initRegions()
 	b.initCandidates()
 }
 
+// initCandidates iterate to all Cells removing a value from related regions candidates
 func (b *Board) initCandidates() {
-	for _, rows := range b.Cells {
-		for _, cell := range rows {
-			if !cell.IsEmpty() {
-				b.cleanFromRegions(cell.Position, cell.Value)
-			}
+	for cell := range CellsIterator(b.Cells) {
+		if !cell.IsEmpty() {
+			b.cleanFromRegions(cell.Position, cell.Value)
 		}
 	}
 }
@@ -163,4 +163,3 @@ func (b *Board) initSquares() {
 		b.AllRegions = append(b.AllRegions, b.Squares[i])
 	}
 }
-

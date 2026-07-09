@@ -1,13 +1,12 @@
-package iterators
+package models
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"Lechenco/sudoku-solver/internal/models/regions"
 	"iter"
 )
 
-func CellsIterator(grid models.CellGrid) iter.Seq[cells.Cell] {
+func CellsIterator(grid CellGrid) iter.Seq[cells.Cell] {
 	return func(yield func(cells.Cell) bool) {
 		for _, row := range grid {
 			for _, c := range row {
@@ -19,7 +18,7 @@ func CellsIterator(grid models.CellGrid) iter.Seq[cells.Cell] {
 	}
 }
 
-func EmptyCellsIterator(grid models.CellGrid) iter.Seq[cells.Cell] {
+func EmptyCellsIterator(grid CellGrid) iter.Seq[cells.Cell] {
 	return func(yield func(cells.Cell) bool) {
 		for _, row := range grid {
 			for _, c := range row {
@@ -35,7 +34,7 @@ func EmptyCellsIterator(grid models.CellGrid) iter.Seq[cells.Cell] {
 	}
 }
 
-func UnclearRegionsIterator(board models.Board) iter.Seq[regions.Region] {
+func UnclearRegionsIterator(board Board) iter.Seq[regions.Region] {
 	return func(yield func(regions.Region) bool) {
 		for i, v := range board.CleanedRegions {
 			if v {

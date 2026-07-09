@@ -9,6 +9,7 @@ func ToValue(c rune) Value {
 	return 0
 }
 
+// String returns the char value of v. Returns "_" if v is equal to zero.
 func (v Value) String() string {
 	if v == 0 {
 		return "_"

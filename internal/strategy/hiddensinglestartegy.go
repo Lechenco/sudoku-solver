@@ -1,7 +1,7 @@
 package strategy
 
 import (
-	"Lechenco/sudoku-solver/internal/iterators"
+	"Lechenco/sudoku-solver/internal/models"
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/internal/models/regions"
@@ -15,12 +15,16 @@ type hiddenSingleStrategy struct {
 	name string
 }
 
+// Step search for region with a certain value in a single cell, create a step 
+// to apply the change. 
+//
+// Return error if none valid step was founded
 func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
 	step gamestate.Step, err error,
 ) {
 	data := gamestate.StepData{}
 	start := time.Now()
-	for region := range iterators.UnclearRegionsIterator(gameState.Board) {
+	for region := range models.UnclearRegionsIterator(gameState.Board) {
 		uniqueValues := findUniqueValues(region)
 
 		data.Comparations += 1
@@ -45,12 +49,16 @@ func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
 	return
 }
 
+// findUniqueValues iterates over all region cell candidates searching for 
+// values that appears only once. Returns the founded values array.
 func findUniqueValues(region regions.Region) []cells.Value {
 	candidates := region.GetCellsCandidates()
 	uniqueCandidate := cells.Uniques(candidates...)
 	return uniqueCandidate.GetValues()
 }
 
+// findCell searchs in a cells array for the first cell with the candidate value.
+// Returns the founded cell.
 func findCell(cellsArray []*cells.Cell, value cells.Value) *cells.Cell {
 	cellIndex := slices.IndexFunc(cellsArray, func(c *cells.Cell) bool {
 		return c.Candidates.Has(value)
