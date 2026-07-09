@@ -7,8 +7,10 @@ import (
 	"slices"
 )
 
+// CellGrid is a abstraction from a 9x9 matrix of cells
 type CellGrid [9][9]*cells.Cell
 
+// SetValue sets value to the cell on position
 func (g *CellGrid) SetValue(position cells.Position, value cells.Value) error {
 	return g[position.RowNumber][position.ColumnNumber].SetValue(value)
 }
@@ -22,10 +24,14 @@ type Board struct {
 	CleanedRegions []bool
 }
 
+// Check if all regions were cleaned
 func (b *Board) Finished() (res bool) {
 	res = true
 	for _, v := range b.CleanedRegions {
 		res = res && v
+		if !res {
+			break
+		}
 	}
 
 	return
@@ -35,6 +41,8 @@ func (b *Board) GetCells() CellGrid {
 	return b.Cells
 }
 
+// SetValue try to set the value at position, if success it checks if the board 
+// is still valid and clean the value candidate from related regions.
 func (b *Board) SetValue(position cells.Position, value cells.Value) (err error) {
 	err = b.Cells.SetValue(position, value)
 
@@ -53,6 +61,10 @@ func (b *Board) SetValue(position cells.Position, value cells.Value) (err error)
 	return
 }
 
+// cleanFromRegions remove the value candidate from all regions which the 
+// position cell is related. 
+//
+// After remove the candidates, updates if the region is cleaned.
 func (b *Board) cleanFromRegions(position cells.Position, value cells.Value) {
 	for _, region := range b.getRegions(position) {
 		region.RemoveCandidate(value)
@@ -65,6 +77,7 @@ func (b *Board) cleanFromRegions(position cells.Position, value cells.Value) {
 	}
 }
 
+// getRegions returns a array with all regions who overlap the position
 func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
 	arr = append(arr, b.Columns[position.ColumnNumber])
 	arr = append(arr, b.Rows[position.RowNumber])
@@ -75,6 +88,8 @@ func (b *Board) getRegions(position cells.Position) (arr []regions.Region) {
 	return
 }
 
+// Valid verify the puzzle restrictions in all board regions, 
+// returning a error if any of it was crossed.
 func (b *Board) Valid() error {
 
 	for _, region := range b.AllRegions {
@@ -148,3 +163,4 @@ func (b *Board) initSquares() {
 		b.AllRegions = append(b.AllRegions, b.Squares[i])
 	}
 }
+

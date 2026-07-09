@@ -7,9 +7,13 @@ type ColumnRegion struct {
 }
 
 func NewColumnRegion(cells [9]*cells.Cell) *ColumnRegion {
-	return &ColumnRegion{
+	res := &ColumnRegion{
 		linearRegion{
 			Cells: cells,
+			baseRegion: &baseRegion{},
 		},
 	}
+
+	res.baseRegion.Region = res
+	return res
 }

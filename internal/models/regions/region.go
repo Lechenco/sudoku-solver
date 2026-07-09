@@ -14,28 +14,32 @@ type Region interface {
 	RemoveCandidate(value cells.Value)
 }
 
-type linearRegion struct {
-	Cells [9]*cells.Cell
+type baseRegion struct {
+	Region
 }
 
-func (c *linearRegion) GetCandidates() cells.ValuesSet {
+func (c *baseRegion) GetCandidates() cells.ValuesSet {
 	candidate := cells.ValuesSet(0x0)
 
-	for _, cell := range c.Cells {
+	for _, cell := range c.GetCells() {
 		candidate |= cell.Candidates
 	}
 
 	return candidate
 }
 
-func (c *linearRegion) GetCell(index uint8) *cells.Cell {
-	return c.Cells[index]
+func (c *baseRegion) GetCell(index uint8) *cells.Cell {
+	return c.GetCells()[index]
 }
 
-func (c *linearRegion) Valid() error {
+// Valid iterate over the region cells searching for a broken puzzle restrition:
+//   - Duplicated value in a same region
+//   - Empty cell with no possible candidate
+// In one of these cases, return a new error
+func (c *baseRegion) Valid() error {
 	onRegion := cells.ValuesSet(0)
 
-	for _, cell := range c.Cells {
+	for _, cell := range c.GetCells() {
 		if cell.Value != 0 {
 			if onRegion.Has(cell.Value) {
 				return fmt.Errorf("Valor duplicado na mesma região: [%v]", cell)
@@ -48,17 +52,14 @@ func (c *linearRegion) Valid() error {
 	return nil
 }
 
-func (c *linearRegion) RemoveCandidate(value cells.Value) {
-	for _, cell := range c.Cells {
+// RemoveCandidate remove value from all region cells
+func (c *baseRegion) RemoveCandidate(value cells.Value) {
+	for _, cell := range c.GetCells() {
 		cell.Candidates.Remove(value)
 	}
 }
 
-func (c *linearRegion) GetCells() []*cells.Cell {
-	return c.Cells[:]
-}
-
-func (c *linearRegion) GetCellsCandidates() []cells.ValuesSet {
+func (c *baseRegion) GetCellsCandidates() []cells.ValuesSet {
 	cs := c.GetCells()
 	candidates := make([]cells.ValuesSet, len(cs))
 
@@ -66,5 +67,14 @@ func (c *linearRegion) GetCellsCandidates() []cells.ValuesSet {
 		candidates[i] = cell.Candidates
 	}
 	return candidates
+}
+
+type linearRegion struct {
+	*baseRegion
+	Cells [9]*cells.Cell
+}
+
+func (c *linearRegion) GetCells() []*cells.Cell {
+	return c.Cells[:]
 }
 

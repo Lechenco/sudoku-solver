@@ -10,6 +10,7 @@ type Cell struct {
 	Position   Position
 }
 
+// IsEmpty returns if Cell value is equal to zero.
 func (c Cell) IsEmpty() bool {
 	return c.Value == 0
 }
@@ -30,8 +31,11 @@ func ToCell(value Value) *Cell {
 	}
 }
 
+// SetValue update the Cell.Value.
+// Before set the new value, it checks if cell is not empty and 
+// if value is not zero. On both cases a error is returned.
 func (c *Cell) SetValue(value Value) error {
-	if c.Value != Value(0) {
+	if !c.IsEmpty() {
 		return fmt.Errorf("%v already filled, overrides are not allowed.", c)
 	}
 
