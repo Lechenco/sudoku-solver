@@ -5,11 +5,13 @@ import (
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/internal/strategy"
 	"Lechenco/sudoku-solver/utils/format"
+	"log/slog"
 )
 
 type GameConfig struct {
 	InitialBoard models.Board
 	Strategies   []strategy.Strategy
+	LoggerLevel  slog.Level
 }
 
 type GameManager interface {

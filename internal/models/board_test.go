@@ -254,6 +254,6 @@ func TestSetValue(t *testing.T) {
 			ColumnNumber: 7,
 		}, cells.Value(7))
 
-		assert.EqualError(err, "Valor duplicado na mesma região: [{Cell[{8 7}]: 7}]")
+		assert.EqualError(err, "Valor duplicado na mesma região: [{RowRegion[_,_,7,_,_,8,_,7,9]}]")
 	})
 }

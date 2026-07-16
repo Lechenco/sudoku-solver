@@ -3,6 +3,7 @@ package regions
 import (
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"fmt"
+	"log/slog"
 )
 
 type Region interface {
@@ -16,36 +17,40 @@ type Region interface {
 
 type baseRegion struct {
 	Region
+	logger *slog.Logger
 }
 
-func (c *baseRegion) GetCandidates() cells.ValuesSet {
+func (s *baseRegion) GetCandidates() cells.ValuesSet {
 	candidate := cells.ValuesSet(0x0)
 
-	for _, cell := range c.GetCells() {
+	for _, cell := range s.GetCells() {
 		candidate |= cell.Candidates
 	}
 
 	return candidate
 }
 
-func (c *baseRegion) GetCell(index uint8) *cells.Cell {
-	return c.GetCells()[index]
+func (s *baseRegion) GetCell(index uint8) *cells.Cell {
+	return s.GetCells()[index]
 }
 
 // Valid iterate over the region cells searching for a broken puzzle restrition:
 //   - Duplicated value in a same region
 //   - Empty cell with no possible candidate
 // In one of these cases, return a new error
-func (c *baseRegion) Valid() error {
+func (s *baseRegion) Valid() error {
+	s.logger.Debug(fmt.Sprintf("Validando região [%v]", s.Region))
 	onRegion := cells.ValuesSet(0)
 
-	for _, cell := range c.GetCells() {
+	for _, cell := range s.GetCells() {
 		if cell.Value != 0 {
 			if onRegion.Has(cell.Value) {
-				return fmt.Errorf("Valor duplicado na mesma região: [%v]", cell)
+				s.logger.Error(fmt.Sprintf("Valor duplicado na mesma região: [%v]", s.Region))
+				return fmt.Errorf("Valor duplicado na mesma região: [%v]", s.Region)
 			}
 			onRegion.Add(cell.Value)
 		} else if cell.Candidates.IsEmpty() {
+			s.logger.Error(fmt.Sprintf("Célula vazia com nenhum candidato possível: [%v]", cell))
 			return fmt.Errorf("Célula vazia com nenhum candidato possível: [%v]", cell)
 		}
 	}
@@ -53,14 +58,15 @@ func (c *baseRegion) Valid() error {
 }
 
 // RemoveCandidate remove value from all region cells
-func (c *baseRegion) RemoveCandidate(value cells.Value) {
-	for _, cell := range c.GetCells() {
+func (s *baseRegion) RemoveCandidate(value cells.Value) {
+	s.logger.Debug(fmt.Sprintf("Removendo candidato [%v] de todas as células da região [%v]", value, s.Region))
+	for _, cell := range s.GetCells() {
 		cell.Candidates.Remove(value)
 	}
 }
 
-func (c *baseRegion) GetCellsCandidates() []cells.ValuesSet {
-	cs := c.GetCells()
+func (s *baseRegion) GetCellsCandidates() []cells.ValuesSet {
+	cs := s.GetCells()
 	candidates := make([]cells.ValuesSet, len(cs))
 
 	for i, cell := range cs{
