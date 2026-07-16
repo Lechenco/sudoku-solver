@@ -1,11 +1,14 @@
 package strategy
 
 import (
+	"Lechenco/sudoku-solver/internal/logging"
 	"Lechenco/sudoku-solver/internal/models"
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/internal/models/regions"
 	"errors"
+	"fmt"
+	"log/slog"
 	"slices"
 	"sync"
 	"time"
@@ -13,6 +16,7 @@ import (
 
 type hiddenSingleStrategy struct {
 	name string
+	logger *slog.Logger
 }
 
 // Step search for region with a certain value in a single cell, create a step 
@@ -22,6 +26,7 @@ type hiddenSingleStrategy struct {
 func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
 	step gamestate.Step, err error,
 ) {
+	h.logger.Info("Iniciando busca por passo com estratégia hidden_single")
 	data := gamestate.StepData{}
 	start := time.Now()
 	for region := range models.UnclearRegionsIterator(gameState.Board) {
@@ -38,12 +43,15 @@ func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
 				StrategyName: h.name,
 				StepData:     data,
 			}
+
+			h.logger.Info(fmt.Sprintf("Passo [%v] encontrado com estratégia hidden_single", step))
 			break
 		}
 
 	}
 
 	if step == nil {
+		h.logger.Error("Estratégia não conseguiu encontrar um step válido.")
 		err = errors.New("Estratégia não conseguiu encontrar um step válido")
 	}
 	return
@@ -74,7 +82,10 @@ var (
 
 func HiddenSingleStrategyInstance() *hiddenSingleStrategy {
 	hsonce.Do(func() {
-		hsinstance = &hiddenSingleStrategy{name: "hidden_single"}
+		hsinstance = &hiddenSingleStrategy{
+			name: "hidden_single",
+			logger: logging.LoggerFactory("strategy/hiddenSingleStrategy"),
+		}
 	})
 	return hsinstance
 }
