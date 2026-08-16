@@ -1,11 +1,12 @@
 package regions
 
 import (
-	"Lechenco/sudoku-solver/internal/logging"
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"fmt"
 	"slices"
 	"strings"
+
+	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
 
 type SquareRegion struct {
@@ -15,7 +16,7 @@ type SquareRegion struct {
 
 func NewSquareRegion(cells [3][3]*cells.Cell) *SquareRegion {
 	res := &SquareRegion{
-		Cells: cells,
+		Cells:      cells,
 		baseRegion: &baseRegion{},
 	}
 
@@ -42,4 +43,3 @@ func (s *SquareRegion) String() string {
 
 	return fmt.Sprintf("{SquareRegion[%v]}", strings.Join(values, ","))
 }
-

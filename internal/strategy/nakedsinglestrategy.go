@@ -1,19 +1,20 @@
 package strategy
 
 import (
-	"Lechenco/sudoku-solver/internal/logging"
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
 	"sync"
 	"time"
+
+	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
 )
 
 type nakedSingleStrategy struct {
-	name string
+	name   string
 	logger *slog.Logger
 }
 
@@ -22,7 +23,8 @@ func (n *nakedSingleStrategy) MarshalJSON() ([]byte, error) {
 		Name string
 	}{Name: n.name})
 }
-// Step iterates for all the cells looking for a cell with only one valid 
+
+// Step iterates for all the cells looking for a cell with only one valid
 // candidate. Creating a step to set this candidate as the cell value.
 func (n *nakedSingleStrategy) Step(gameState gamestate.GameState) (
 	step gamestate.Step, err error) {
@@ -39,7 +41,7 @@ func (n *nakedSingleStrategy) Step(gameState gamestate.GameState) (
 				Position:     c.Position,
 				Value:        values[0],
 				StrategyName: n.name,
-				StepData: data,
+				StepData:     data,
 			}
 		}
 
@@ -65,7 +67,7 @@ var (
 func NakedSingleStrategyInstance() *nakedSingleStrategy {
 	once.Do(func() {
 		instance = &nakedSingleStrategy{
-			name: "naked_single",
+			name:   "naked_single",
 			logger: logging.LoggerFactory("strategy/nakedSingleStrategy"),
 		}
 	})

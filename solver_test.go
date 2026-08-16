@@ -4,10 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	"Lechenco/sudoku-solver/internal/models/cells"
-	"Lechenco/sudoku-solver/internal/models/gamestate"
-	"Lechenco/sudoku-solver/internal/strategy"
-	"Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/internal/strategy"
+	"github.com/Lechenco/sudoku-solver/models"
 
 	"github.com/stretchr/testify/assert"
 )

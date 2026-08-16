@@ -1,11 +1,12 @@
 package services_test
 
 import (
-	"Lechenco/sudoku-solver/models"
-	"Lechenco/sudoku-solver/services"
-	"Lechenco/sudoku-solver/utils/format"
 	"strings"
 	"testing"
+
+	"github.com/Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/services"
+	"github.com/Lechenco/sudoku-solver/utils/format"
 
 	"github.com/stretchr/testify/assert"
 )

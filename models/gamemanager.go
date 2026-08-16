@@ -1,13 +1,14 @@
 package models
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/gamestate"
-	"Lechenco/sudoku-solver/internal/strategy"
-	"Lechenco/sudoku-solver/utils/format"
 	"encoding/json"
 	"fmt"
 	"log/slog"
+
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/internal/strategy"
+	"github.com/Lechenco/sudoku-solver/utils/format"
 )
 
 type GameConfig struct {

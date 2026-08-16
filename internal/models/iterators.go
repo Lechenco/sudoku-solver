@@ -1,9 +1,10 @@
 package models
 
 import (
-	"Lechenco/sudoku-solver/internal/models/cells"
-	"Lechenco/sudoku-solver/internal/models/regions"
 	"iter"
+
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models/regions"
 )
 
 func CellsIterator(grid CellGrid) iter.Seq[cells.Cell] {

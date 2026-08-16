@@ -1,10 +1,11 @@
 package regions
 
 import (
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"encoding/json"
 	"fmt"
 	"log/slog"
+
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
 
 type Region interface {
@@ -35,13 +36,12 @@ func (s *baseRegion) GetCell(index uint8) *cells.Cell {
 	return s.GetCells()[index]
 }
 
-
 func (c *baseRegion) MarshalJSON() ([]byte, error) {
-	return json.Marshal(struct{
-		Cells []*cells.Cell
+	return json.Marshal(struct {
+		Cells      []*cells.Cell
 		Candidates []cells.ValuesSet
 	}{
-		Cells: c.GetCells(),
+		Cells:      c.GetCells(),
 		Candidates: c.GetCellsCandidates(),
 	})
 
@@ -50,6 +50,7 @@ func (c *baseRegion) MarshalJSON() ([]byte, error) {
 // Valid iterate over the region cells searching for a broken puzzle restrition:
 //   - Duplicated value in a same region
 //   - Empty cell with no possible candidate
+//
 // In one of these cases, return a new error
 func (s *baseRegion) Valid() error {
 	s.logger.Debug(fmt.Sprintf("Validando região [%v]", s.Region))
@@ -82,7 +83,7 @@ func (s *baseRegion) GetCellsCandidates() []cells.ValuesSet {
 	cs := s.GetCells()
 	candidates := make([]cells.ValuesSet, len(cs))
 
-	for i, cell := range cs{
+	for i, cell := range cs {
 		candidates[i] = cell.Candidates
 	}
 	return candidates
@@ -96,4 +97,3 @@ type linearRegion struct {
 func (c *linearRegion) GetCells() []*cells.Cell {
 	return c.Cells[:]
 }
-

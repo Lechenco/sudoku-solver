@@ -1,11 +1,12 @@
 package sudokusolver
 
 import (
-	"Lechenco/sudoku-solver/internal/strategy"
-	"Lechenco/sudoku-solver/models"
-	"Lechenco/sudoku-solver/services"
-	"Lechenco/sudoku-solver/utils/format"
 	"log/slog"
+
+	"github.com/Lechenco/sudoku-solver/internal/strategy"
+	"github.com/Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/services"
+	"github.com/Lechenco/sudoku-solver/utils/format"
 )
 
 type SudokuSolver struct {

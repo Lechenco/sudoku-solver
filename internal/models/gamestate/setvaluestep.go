@@ -1,9 +1,10 @@
 package gamestate
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"fmt"
+
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
 
 type SetValueStep struct {

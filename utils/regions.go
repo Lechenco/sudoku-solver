@@ -1,6 +1,6 @@
 package utils
 
-import "Lechenco/sudoku-solver/internal/models/cells"
+import "github.com/Lechenco/sudoku-solver/internal/models/cells"
 
 // IndexSquareRegion take a grid position and returns the relative square region
 // position.

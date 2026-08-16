@@ -1,10 +1,9 @@
 package gamestate
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
-
 
 type RemoveCandidatesStep struct {
 	cells.Position

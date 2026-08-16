@@ -1,8 +1,9 @@
 package utils_test
 
 import (
-	"Lechenco/sudoku-solver/utils"
 	"testing"
+
+	"github.com/Lechenco/sudoku-solver/utils"
 
 	"github.com/stretchr/testify/assert"
 )

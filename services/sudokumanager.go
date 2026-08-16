@@ -1,14 +1,15 @@
 package services
 
 import (
-	"Lechenco/sudoku-solver/internal/logging"
-	"Lechenco/sudoku-solver/internal/models/gamestate"
-	"Lechenco/sudoku-solver/models"
-	"Lechenco/sudoku-solver/utils/io"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
+
+	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/utils/io"
 )
 
 // SudokuManager takes a game of sudoku, step by step, from multiple strategies.

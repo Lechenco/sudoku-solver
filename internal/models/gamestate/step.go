@@ -1,9 +1,10 @@
 package gamestate
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"time"
+
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
 
 type Step interface {
@@ -15,5 +16,5 @@ type Step interface {
 
 type StepData struct {
 	ExecutionTime time.Duration
-	Comparations int
+	Comparations  int
 }

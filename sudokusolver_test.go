@@ -1,11 +1,6 @@
 package sudokusolver_test
 
 import (
-	sudokusolver "Lechenco/sudoku-solver"
-	"Lechenco/sudoku-solver/internal/models/cells"
-	"Lechenco/sudoku-solver/internal/models/gamestate"
-	"Lechenco/sudoku-solver/internal/strategy"
-	"Lechenco/sudoku-solver/services"
 	"context"
 	"errors"
 	"flag"
@@ -14,6 +9,12 @@ import (
 	"regexp"
 	"strings"
 	"testing"
+
+	sudokusolver "github.com/Lechenco/sudoku-solver"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/internal/strategy"
+	"github.com/Lechenco/sudoku-solver/services"
 
 	"github.com/cucumber/godog"
 )
