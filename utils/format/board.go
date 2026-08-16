@@ -1,8 +1,8 @@
 package format
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
 
 func BoardFromString(s string) models.Board {

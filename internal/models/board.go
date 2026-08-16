@@ -1,14 +1,15 @@
 package models
 
 import (
-	"Lechenco/sudoku-solver/internal/logging"
-	"Lechenco/sudoku-solver/internal/models/cells"
-	"Lechenco/sudoku-solver/internal/models/regions"
-	"Lechenco/sudoku-solver/utils"
 	"encoding/json"
 	"fmt"
 	"log/slog"
 	"slices"
+
+	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models/regions"
+	"github.com/Lechenco/sudoku-solver/utils"
 )
 
 // CellGrid is a abstraction from a 9x9 matrix of cells

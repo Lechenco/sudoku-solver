@@ -1,10 +1,11 @@
 package models_test
 
 import (
-	"Lechenco/sudoku-solver/internal/models/cells"
-	"Lechenco/sudoku-solver/utils/format"
 	"strings"
 	"testing"
+
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/utils/format"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -48,7 +49,7 @@ func TestInit(t *testing.T) {
 	})
 	t.Run("Check candidates are correct", func(t *testing.T) {
 		assert := assert.New(t)
-		
+
 		assert.Equal(cells.ValuesSet(0), b.Cells[0][0].Candidates)
 		assert.Equal(cells.ValuesSet(0x1b0), b.Cells[0][1].Candidates)
 		assert.Equal(cells.ValuesSet(0x36), b.Cells[6][8].Candidates)

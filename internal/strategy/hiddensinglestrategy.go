@@ -1,11 +1,6 @@
 package strategy
 
 import (
-	"Lechenco/sudoku-solver/internal/logging"
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/internal/models/cells"
-	"Lechenco/sudoku-solver/internal/models/gamestate"
-	"Lechenco/sudoku-solver/internal/models/regions"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,6 +8,12 @@ import (
 	"slices"
 	"sync"
 	"time"
+
+	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/internal/models/regions"
 )
 
 type hiddenSingleStrategy struct {

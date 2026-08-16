@@ -1,9 +1,10 @@
 package io
 
 import (
-	"Lechenco/sudoku-solver/internal/models"
-	"Lechenco/sudoku-solver/utils/format"
 	"os"
+
+	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/utils/format"
 )
 
 func ReadBoardFromFile(filename string) (models.Board, error) {

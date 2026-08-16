@@ -1,10 +1,11 @@
 package regions
 
 import (
-	"Lechenco/sudoku-solver/internal/logging"
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"fmt"
 	"strings"
+
+	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
 
 type ColumnRegion struct {
@@ -14,7 +15,7 @@ type ColumnRegion struct {
 func NewColumnRegion(cells [9]*cells.Cell) *ColumnRegion {
 	res := &ColumnRegion{
 		linearRegion{
-			Cells: cells,
+			Cells:      cells,
 			baseRegion: &baseRegion{},
 		},
 	}
@@ -33,4 +34,3 @@ func (c *ColumnRegion) String() string {
 
 	return fmt.Sprintf("{ColumnRegion[%v]}", strings.Join(values, ","))
 }
-

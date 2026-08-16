@@ -1,8 +1,9 @@
 package cells_test
 
 import (
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"testing"
+
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 
 	"github.com/stretchr/testify/assert"
 )

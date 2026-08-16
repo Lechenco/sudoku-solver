@@ -1,8 +1,9 @@
 package cells_test
 
 import (
-	"Lechenco/sudoku-solver/internal/models/cells"
 	"testing"
+
+	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -87,11 +88,11 @@ func TestUniques(t *testing.T) {
 		assert.False(res.Has(2))
 		assert.True(res.Has(3))
 	})
-	
+
 	t.Run("Unique bits between three set", func(t *testing.T) {
 		assert := assert.New(t)
 		res := cells.Uniques(
-			cells.ValuesSet(0b011), 
+			cells.ValuesSet(0b011),
 			cells.ValuesSet(0b110),
 			cells.ValuesSet(0b001),
 		)
@@ -104,7 +105,7 @@ func TestUniques(t *testing.T) {
 	t.Run("Unique bits between severous sets", func(t *testing.T) {
 		assert := assert.New(t)
 		res := cells.Uniques(
-			cells.ValuesSet(0b00011), 
+			cells.ValuesSet(0b00011),
 			cells.ValuesSet(0b11101),
 			cells.ValuesSet(0b11011),
 			cells.ValuesSet(0b01001),
@@ -125,5 +126,5 @@ func TestUniques(t *testing.T) {
 		assert.False(res.Has(2))
 		assert.False(res.Has(3))
 	})
-	
+
 }

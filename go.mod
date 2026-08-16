@@ -1,4 +1,4 @@
-module Lechenco/sudoku-solver
+module github.com/Lechenco/sudoku-solver
 
 go 1.25.0
 
