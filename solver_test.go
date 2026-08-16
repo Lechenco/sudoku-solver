@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/Lechenco/sudoku-solver/internal/models/cells"
-	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/services/strategy"
 
 	"github.com/stretchr/testify/assert"

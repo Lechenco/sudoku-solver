@@ -12,8 +12,8 @@ import (
 	"github.com/Lechenco/sudoku-solver/internal/logging"
 	"github.com/Lechenco/sudoku-solver/internal/models"
 	"github.com/Lechenco/sudoku-solver/internal/models/cells"
-	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/internal/models/regions"
+	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
 
 type hiddenSingleStrategy struct {

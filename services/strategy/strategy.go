@@ -1,7 +1,7 @@
 package strategy
 
 import (
-	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
 
 type Strategy interface {

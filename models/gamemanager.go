@@ -6,7 +6,7 @@ import (
 	"log/slog"
 
 	"github.com/Lechenco/sudoku-solver/internal/models"
-	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/services/strategy"
 	"github.com/Lechenco/sudoku-solver/utils/format"
 )

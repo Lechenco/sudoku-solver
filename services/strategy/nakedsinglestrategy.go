@@ -10,7 +10,7 @@ import (
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
 	"github.com/Lechenco/sudoku-solver/internal/models"
-	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
+	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
 
 type nakedSingleStrategy struct {
