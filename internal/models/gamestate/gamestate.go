@@ -1,6 +1,9 @@
 package gamestate
 
-import "Lechenco/sudoku-solver/internal/models"
+import (
+	"Lechenco/sudoku-solver/internal/models"
+	"encoding/json"
+)
 
 // GameState Store all the data for a particular puzzle.
 //
@@ -13,4 +16,22 @@ type GameState struct {
 
 func (g *GameState) Valid() error {
 	return g.Board.Valid()
+}
+
+func (g *GameState) UnmarshalJSON(b []byte) error {
+	aux := &struct{
+		Steps []SetValueStep
+		Board models.Board
+	}{}
+
+	if err := json.Unmarshal(b, aux); err != nil {
+		return err
+	}
+
+	g.Steps = []Step{}
+	g.Board = aux.Board
+	for _, step := range aux.Steps {
+		g.Steps = append(g.Steps, &step)
+	}
+	return nil
 }

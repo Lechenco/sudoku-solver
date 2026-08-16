@@ -6,6 +6,7 @@ import (
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/internal/models/regions"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -15,12 +16,18 @@ import (
 )
 
 type hiddenSingleStrategy struct {
-	name string
+	name   string
 	logger *slog.Logger
 }
 
-// Step search for region with a certain value in a single cell, create a step 
-// to apply the change. 
+func (h *hiddenSingleStrategy) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		Name string
+	}{Name: h.name})
+}
+
+// Step search for region with a certain value in a single cell, create a step
+// to apply the change.
 //
 // Return error if none valid step was founded
 func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
@@ -57,7 +64,7 @@ func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
 	return
 }
 
-// findUniqueValues iterates over all region cell candidates searching for 
+// findUniqueValues iterates over all region cell candidates searching for
 // values that appears only once. Returns the founded values array.
 func findUniqueValues(region regions.Region) []cells.Value {
 	candidates := region.GetCellsCandidates()
@@ -83,7 +90,7 @@ var (
 func HiddenSingleStrategyInstance() *hiddenSingleStrategy {
 	hsonce.Do(func() {
 		hsinstance = &hiddenSingleStrategy{
-			name: "hidden_single",
+			name:   "hidden_single",
 			logger: logging.LoggerFactory("strategy/hiddenSingleStrategy"),
 		}
 	})

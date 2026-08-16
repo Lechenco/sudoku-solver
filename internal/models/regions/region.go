@@ -2,6 +2,7 @@ package regions
 
 import (
 	"Lechenco/sudoku-solver/internal/models/cells"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 )
@@ -32,6 +33,18 @@ func (s *baseRegion) GetCandidates() cells.ValuesSet {
 
 func (s *baseRegion) GetCell(index uint8) *cells.Cell {
 	return s.GetCells()[index]
+}
+
+
+func (c *baseRegion) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct{
+		Cells []*cells.Cell
+		Candidates []cells.ValuesSet
+	}{
+		Cells: c.GetCells(),
+		Candidates: c.GetCellsCandidates(),
+	})
+
 }
 
 // Valid iterate over the region cells searching for a broken puzzle restrition:
