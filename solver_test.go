@@ -39,6 +39,10 @@ func (s *spyGameManager) Finished() bool {
 	return false
 }
 
+func (s *spyGameManager) ToFile(filename string) error { return nil }
+
+func (s *spyGameManager) InitFromFile(filename string) error { return nil }
+
 func TestNewSudokuSolver_CallsInitAndValidState(t *testing.T) {
 	assert := assert.New(t)
 	previousManager := newGameManager

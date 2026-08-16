@@ -4,6 +4,8 @@ import (
 	"Lechenco/sudoku-solver/internal/logging"
 	"Lechenco/sudoku-solver/internal/models/gamestate"
 	"Lechenco/sudoku-solver/models"
+	"Lechenco/sudoku-solver/utils/io"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -86,4 +88,57 @@ func (s *SudokuManager) ValidState() error {
 
 func (s *SudokuManager) Finished() bool {
 	return s.GameState.Board.Finished()
+}
+
+func (s *SudokuManager) ToFile(filename string) error {
+	data, err := json.MarshalIndent(&s, "", "    ")
+
+	if err != nil {
+		return err
+	}
+	
+	return io.SaveToFile(data, filename)
+}
+
+func (s *SudokuManager) InitFromFile(filename string) error  {
+	bytes, err := io.ReadFile(filename)
+
+	if err != nil {
+		return err
+	}
+	
+	if err := json.Unmarshal(bytes, s); err != nil {
+		return err
+	}
+	
+	s.GameConfig.InitialBoard = s.GameState.Board
+	s.Init(s.GameConfig)
+
+	return nil	
+}
+
+func (s *SudokuManager) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct{
+		Config models.GameConfig
+		GameState gamestate.GameState
+	}{
+		Config: s.GameConfig,
+		GameState: s.GameState,
+	})
+}
+
+func (s *SudokuManager) UnmarshalJSON(b []byte) error {
+	aux := &struct{
+		Config models.GameConfig
+		GameState gamestate.GameState
+	}{}
+
+	if err := json.Unmarshal(b, aux); err != nil {
+		return err
+	}
+
+	s.GameConfig = aux.Config
+	s.GameState = aux.GameState
+
+	return nil
 }

@@ -1,3 +1,5 @@
+@naked_single
+
 Funcionalidade: Estratégia Naked Single
 
     Naked Single se refere quando um único valor válido restou para uma célula.

@@ -5,6 +5,7 @@ import (
 	"Lechenco/sudoku-solver/internal/models/cells"
 	"Lechenco/sudoku-solver/internal/models/regions"
 	"Lechenco/sudoku-solver/utils"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"slices"
@@ -181,4 +182,25 @@ func (b *Board) initSquares() {
 		b.Squares[i] = regions.NewSquareRegion(cells)
 		b.AllRegions = append(b.AllRegions, b.Squares[i])
 	}
+}
+
+func (b *Board) MarshalJSON() ([]byte, error) {
+	return json.Marshal(struct {
+		Cells   CellGrid
+	}{
+		Cells: b.Cells,
+	})
+}
+
+func (board *Board) UnmarshalJSON(b []byte) error {
+	aux := &struct{
+		Cells CellGrid
+	}{}
+
+	if err := json.Unmarshal(b, aux); err != nil {
+		return err
+	}
+
+	board.Cells = aux.Cells
+	return nil
 }

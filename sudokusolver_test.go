@@ -10,6 +10,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"os"
 	"regexp"
 	"strings"
 	"testing"
@@ -71,9 +72,9 @@ func oPrximoPassoNaPosio(ctx context.Context, value, row, column int) (context.C
 
 	return context.WithValue(ctx, sudokuCtxKey{}, sudokuCtx{
 		strategies: sudokuctx.strategies,
-		lastStep: step,
-		solver: sudokuctx.solver,
-		err: sudokuctx.err,
+		lastStep:   step,
+		solver:     sudokuctx.solver,
+		err:        sudokuctx.err,
 	}), nil
 }
 
@@ -91,13 +92,13 @@ func noFoiPossvelDeterminarOPrximoPasso(ctx context.Context) (context.Context, e
 
 func termineOTabuleiro(ctx context.Context) error {
 	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
-    
+
 	err := sudokuctx.solver.StepAll()
 
 	if err != nil {
 		return fmt.Errorf("Não foi possível completar o tabuleiro, erro: %v", err)
 	}
-	
+
 	if !sudokuctx.solver.Finished() {
 		return errors.New("Tabuleiro não foi completado.")
 	}
@@ -184,7 +185,37 @@ func oTabuleiroAbaixo(ctx context.Context, arg1 *godog.DocString) (context.Conte
 	}), nil
 }
 
+func salveOJogoEm(ctx context.Context, filename string) error {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+
+	err := sudokuctx.solver.ToFile(filename)
+
+	if err != nil {
+		return fmt.Errorf("Não foi possível salvar o arquivo, erro: %v", err)
+	}
+
+	if _, err = os.ReadFile(filename); err != nil {
+		return fmt.Errorf("O arquivo não foi encontrado, erro: %v", err)
+	}
+
+	return nil
+}
+
+func recupereOJogoDe(ctx context.Context, filename string) error {
+	sudokuctx := ctx.Value(sudokuCtxKey{}).(sudokuCtx)
+
+	err := sudokuctx.solver.InitFromFile(filename)
+
+	if err != nil {
+		return fmt.Errorf("Não foi possível recuperar dados do arquivo, erro: %v", err)
+	}
+
+	return nil
+}
+
+
 var tags = flag.String("godog.tags", "", "tags to execute")
+
 func TestFeature(t *testing.T) {
 
 	suite := godog.TestSuite{
@@ -194,7 +225,7 @@ func TestFeature(t *testing.T) {
 			Paths:    []string{"tests/features"},
 			TestingT: t, // Testing instance that will run subtests.
 			Dialect:  "pt",
-			Tags: *tags,
+			Tags:     *tags,
 		},
 	}
 
@@ -213,4 +244,6 @@ func InitializeScenario(sc *godog.ScenarioContext) {
 	sc.Step(`^não foi possível determinar o próximo passo$`, noFoiPossvelDeterminarOPrximoPasso)
 	sc.Step(`^tome esse passo$`, tomeEssePasso)
 	sc.Step(`^termine o tabuleiro$`, termineOTabuleiro)
+	sc.Step(`^salve o jogo em "([^"]*)"$`, salveOJogoEm)
+	sc.Step(`^recupere o jogo de "([^"]*)"$`, recupereOJogoDe)
 }
