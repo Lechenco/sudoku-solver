@@ -3,9 +3,9 @@ package sudokusolver
 import (
 	"log/slog"
 
-	"github.com/Lechenco/sudoku-solver/internal/strategy"
 	"github.com/Lechenco/sudoku-solver/models"
 	"github.com/Lechenco/sudoku-solver/services"
+	"github.com/Lechenco/sudoku-solver/services/strategy"
 	"github.com/Lechenco/sudoku-solver/utils/format"
 )
 

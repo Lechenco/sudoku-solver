@@ -7,7 +7,7 @@ import (
 
 	"github.com/Lechenco/sudoku-solver/internal/models"
 	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
-	"github.com/Lechenco/sudoku-solver/internal/strategy"
+	"github.com/Lechenco/sudoku-solver/services/strategy"
 	"github.com/Lechenco/sudoku-solver/utils/format"
 )
 

@@ -13,7 +13,7 @@ import (
 	sudokusolver "github.com/Lechenco/sudoku-solver"
 	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
-	"github.com/Lechenco/sudoku-solver/internal/strategy"
+	"github.com/Lechenco/sudoku-solver/services/strategy"
 	"github.com/Lechenco/sudoku-solver/services"
 
 	"github.com/cucumber/godog"
