@@ -91,6 +91,9 @@ func (s *SudokuManager) Finished() bool {
 	return s.GameState.Board.Finished()
 }
 
+func (s *SudokuManager) GetState() gamestate.GameState {
+	return s.GameState
+}
 func (s *SudokuManager) ToFile(filename string) error {
 	data, err := json.MarshalIndent(&s, "", "    ")
 

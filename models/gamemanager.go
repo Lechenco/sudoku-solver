@@ -25,6 +25,7 @@ type GameManager interface {
 	Finished() bool
 	ToFile(filename string) error
 	InitFromFile(filename string) error
+	GetState() gamestate.GameState
 }
 
 func BoardOfGameState(board string) models.Board {

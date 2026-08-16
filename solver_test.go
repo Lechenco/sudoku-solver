@@ -6,8 +6,8 @@ import (
 
 	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 	"github.com/Lechenco/sudoku-solver/internal/models/gamestate"
-	"github.com/Lechenco/sudoku-solver/services/strategy"
 	"github.com/Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/services/strategy"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -38,6 +38,8 @@ func (s *spyGameManager) ValidState() error {
 func (s *spyGameManager) Finished() bool {
 	return false
 }
+
+func (s *spyGameManager) GetState() gamestate.GameState { return gamestate.GameState{} }
 
 func (s *spyGameManager) ToFile(filename string) error { return nil }
 

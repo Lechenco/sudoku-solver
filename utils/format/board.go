@@ -1,6 +1,8 @@
 package format
 
 import (
+	"strings"
+
 	"github.com/Lechenco/sudoku-solver/internal/models"
 	"github.com/Lechenco/sudoku-solver/internal/models/cells"
 )
@@ -30,30 +32,31 @@ func BoardFromString(s string) models.Board {
 }
 
 func BoardToString(board models.Board) string {
-	var s string
+	var s strings.Builder
 	topBorder := "┌───────┬───────┬───────┐\n"
 	midBorder := "├───────┼───────┼───────┤\n"
 	bottomBorder := "└───────┴───────┴───────┘\n"
 
-	s += topBorder
+	s.WriteString(topBorder)
 	for i, row := range board.GetCells() {
-		s += "│ "
+		s.WriteString("│ ")
 
 		for j, cell := range row {
 			if cell.IsEmpty() {
-				s += "_ "
+				s.WriteString("_ ")
 			} else {
-				s += cell.Value.String() + " "
+				s.WriteString(cell.Value.String())
+				s.WriteString(" ")
 			}
 			if (j+1)%3 == 0 {
-				s += "│ "
+				s.WriteString("│ ")
 			}
 		}
-		s += "\n"
+		s.WriteString("\n")
 		if (i+1)%3 == 0 && i != 8 {
-			s += midBorder
+			s.WriteString(midBorder)
 		}
 	}
-	s += bottomBorder
-	return s
+	s.WriteString(bottomBorder)
+	return s.String()
 }
