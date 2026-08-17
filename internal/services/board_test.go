@@ -1,10 +1,11 @@
-package models_test
+package services_test
 
 import (
 	"strings"
 	"testing"
 
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/services"
 	"github.com/Lechenco/sudoku-solver/utils/format"
 
 	"github.com/stretchr/testify/assert"
@@ -23,7 +24,8 @@ var initBoardString = strings.ReplaceAll(`
 `, "\n", "")
 
 func TestInit(t *testing.T) {
-	b := format.BoardFromString(initBoardString)
+	board := format.BoardFromString(initBoardString)
+	b := services.BoardService{Board: &board}
 	b.Init()
 
 	t.Run("Check all cells are correct", func(t *testing.T) {
@@ -39,7 +41,7 @@ func TestInit(t *testing.T) {
 			{0, 2, 0, 0, 5, 0, 0, 8, 0},
 			{0, 0, 3, 0, 0, 6, 0, 0, 9},
 		}
-		for i, row := range b.Cells {
+		for i, row := range b.Board.Cells {
 			for j, cell := range row {
 				assert.Equal(cells.Value(expectedCells[i][j]), cell.Value)
 				assert.Equal(uint8(i), cell.Position.RowNumber)
@@ -50,9 +52,9 @@ func TestInit(t *testing.T) {
 	t.Run("Check candidates are correct", func(t *testing.T) {
 		assert := assert.New(t)
 
-		assert.Equal(cells.ValuesSet(0), b.Cells[0][0].Candidates)
-		assert.Equal(cells.ValuesSet(0x1b0), b.Cells[0][1].Candidates)
-		assert.Equal(cells.ValuesSet(0x36), b.Cells[6][8].Candidates)
+		assert.Equal(cells.ValuesSet(0), b.Board.Cells[0][0].Candidates)
+		assert.Equal(cells.ValuesSet(0x1b0), b.Board.Cells[0][1].Candidates)
+		assert.Equal(cells.ValuesSet(0x36), b.Board.Cells[6][8].Candidates)
 	})
 	t.Run("Check all rows are correct", func(t *testing.T) {
 		assert := assert.New(t)
@@ -137,8 +139,8 @@ var setValueBoardString = strings.ReplaceAll(`
 `, "\n", "")
 
 func TestSetValue(t *testing.T) {
-
-	b := format.BoardFromString(setValueBoardString)
+	board := format.BoardFromString(setValueBoardString)
+	b := services.BoardService{Board: &board}
 	b.Init()
 
 	t.Run("SetValue should change the cell position value", func(t *testing.T) {
@@ -149,7 +151,7 @@ func TestSetValue(t *testing.T) {
 		}, cells.Value(7))
 
 		assert.Nil(err)
-		assert.Equal(cells.Value(7), b.Cells[1][0].Value)
+		assert.Equal(cells.Value(7), b.Board.Cells[1][0].Value)
 	})
 
 	t.Run("SetValue should remove candidate from regions", func(t *testing.T) {

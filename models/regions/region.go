@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 )
 
 type Region interface {

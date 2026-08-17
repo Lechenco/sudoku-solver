@@ -3,15 +3,15 @@ package gamestate
 import (
 	"time"
 
-	"github.com/Lechenco/sudoku-solver/internal/models"
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/services"
 )
 
 type Step interface {
 	GetPosition() cells.Position
 	GetData() StepData
 	GetStrategyName() string
-	TakeStep(models.Board) error
+	TakeStep(services.BoardService) error
 }
 
 type StepData struct {

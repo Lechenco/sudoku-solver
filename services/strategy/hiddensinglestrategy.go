@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
-	"github.com/Lechenco/sudoku-solver/internal/models"
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
-	"github.com/Lechenco/sudoku-solver/internal/models/regions"
+	"github.com/Lechenco/sudoku-solver/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/regions"
+	"github.com/Lechenco/sudoku-solver/internal/services"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
 
@@ -31,13 +31,13 @@ func (h *hiddenSingleStrategy) MarshalJSON() ([]byte, error) {
 // to apply the change.
 //
 // Return error if none valid step was founded
-func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState) (
+func (h *hiddenSingleStrategy) Step(gameState gamestate.GameState, service services.BoardService) (
 	step gamestate.Step, err error,
 ) {
 	h.logger.Info("Iniciando busca por passo com estratégia hidden_single")
 	data := gamestate.StepData{}
 	start := time.Now()
-	for region := range models.UnclearRegionsIterator(gameState.Board) {
+	for region := range services.UnclearRegionsIterator(service) {
 		uniqueValues := findUniqueValues(region)
 
 		data.Comparations += 1

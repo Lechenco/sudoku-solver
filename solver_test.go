@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 	"github.com/Lechenco/sudoku-solver/models"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/services/strategy"
@@ -59,7 +59,7 @@ func TestNewSudokuSolver_CallsInitAndValidState(t *testing.T) {
 	assert.True(spy.initCalled, "expected Init to be called")
 	assert.True(spy.validStateCalled)
 	assert.Equal(solver.GameManager, spy)
-	assert.Equal(cells.Value(5), spy.initConfig.InitialBoard.GetCells()[0][0].Value)
+	assert.Equal(cells.Value(5), spy.initConfig.InitialBoard.Cells[0][0].Value)
 }
 
 func TestNewSudokuSolver_PropagatesValidStateError(t *testing.T) {

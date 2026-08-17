@@ -1,8 +1,8 @@
 package gamestate
 
 import (
-	"github.com/Lechenco/sudoku-solver/internal/models"
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
+	"github.com/Lechenco/sudoku-solver/internal/services"
 )
 
 type RemoveCandidatesStep struct {
@@ -20,7 +20,7 @@ func (s *RemoveCandidatesStep) GetStrategyName() string {
 	return s.StrategyName
 }
 
-func (s *RemoveCandidatesStep) TakeStep(board models.Board) error {
+func (s *RemoveCandidatesStep) TakeStep(service services.BoardService) error {
 	return nil
 }
 

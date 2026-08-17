@@ -3,12 +3,12 @@ package format
 import (
 	"strings"
 
-	"github.com/Lechenco/sudoku-solver/internal/models"
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/board"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 )
 
-func BoardFromString(s string) models.Board {
-	var board models.Board
+func BoardFromString(s string) board.Board {
+	var board board.Board
 	var count int
 
 	if len(s) > 81 {
@@ -31,14 +31,14 @@ func BoardFromString(s string) models.Board {
 	return board
 }
 
-func BoardToString(board models.Board) string {
+func BoardToString(board board.Board) string {
 	var s strings.Builder
 	topBorder := "┌───────┬───────┬───────┐\n"
 	midBorder := "├───────┼───────┼───────┤\n"
 	bottomBorder := "└───────┴───────┴───────┘\n"
 
 	s.WriteString(topBorder)
-	for i, row := range board.GetCells() {
+	for i, row := range board.Cells {
 		s.WriteString("│ ")
 
 		for j, cell := range row {

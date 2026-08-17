@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 )
 
 type RowRegion struct {

@@ -7,6 +7,7 @@ import (
 	"log/slog"
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
+	"github.com/Lechenco/sudoku-solver/internal/services"
 	"github.com/Lechenco/sudoku-solver/models"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/utils/io"
@@ -14,9 +15,10 @@ import (
 
 // SudokuManager takes a game of sudoku, step by step, from multiple strategies.
 type SudokuManager struct {
-	GameConfig models.GameConfig
-	GameState  gamestate.GameState
-	logger	*slog.Logger
+	GameConfig   models.GameConfig
+	GameState    gamestate.GameState
+	BoardService services.BoardService
+	logger       *slog.Logger
 }
 
 func (s *SudokuManager) Init(config models.GameConfig) {
@@ -28,7 +30,8 @@ func (s *SudokuManager) Init(config models.GameConfig) {
 		InitialBoard: config.InitialBoard,
 		Board:        config.InitialBoard,
 	}
-	s.GameState.Board.Init()
+	s.BoardService = services.BoardService{Board: &s.GameState.Board}
+	s.BoardService.Init()
 	s.logger.Debug("SudokuManager Iniciado.")
 }
 
@@ -46,7 +49,7 @@ func (s *SudokuManager) Step() (gamestate.Step, error) {
 	s.logger.Info("Preparando o próximo passo")
 	for _, strateg := range s.GameConfig.Strategies {
 		s.logger.Info(fmt.Sprintf("Procurando próximo passo com estratégia %v", strateg))
-		step, err := strateg.Step(s.GameState)
+		step, err := strateg.Step(s.GameState, s.BoardService)
 
 		if err != nil || step == nil {
 			continue
@@ -55,7 +58,7 @@ func (s *SudokuManager) Step() (gamestate.Step, error) {
 		s.GameState.Steps = append(s.GameState.Steps, step)
 
 		s.logger.Info(fmt.Sprintf("Passo encontrado, tomando passo: %v", step))
-		return step, step.TakeStep(s.GameState.Board)
+		return step, step.TakeStep(s.BoardService)
 	}
 
 	s.logger.Error("Não foi possível determinar o próximo passo")
@@ -84,11 +87,11 @@ func (s *SudokuManager) StepAll() error {
 }
 
 func (s *SudokuManager) ValidState() error {
-	return s.GameState.Valid()
+	return s.BoardService.Valid()
 }
 
 func (s *SudokuManager) Finished() bool {
-	return s.GameState.Board.Finished()
+	return s.BoardService.Finished()
 }
 
 func (s *SudokuManager) GetState() gamestate.GameState {
@@ -100,40 +103,40 @@ func (s *SudokuManager) ToFile(filename string) error {
 	if err != nil {
 		return err
 	}
-	
+
 	return io.SaveToFile(data, filename)
 }
 
-func (s *SudokuManager) InitFromFile(filename string) error  {
+func (s *SudokuManager) InitFromFile(filename string) error {
 	bytes, err := io.ReadFile(filename)
 
 	if err != nil {
 		return err
 	}
-	
+
 	if err := json.Unmarshal(bytes, s); err != nil {
 		return err
 	}
-	
+
 	s.GameConfig.InitialBoard = s.GameState.Board
 	s.Init(s.GameConfig)
 
-	return nil	
+	return nil
 }
 
 func (s *SudokuManager) MarshalJSON() ([]byte, error) {
-	return json.Marshal(struct{
-		Config models.GameConfig
+	return json.Marshal(struct {
+		Config    models.GameConfig
 		GameState gamestate.GameState
 	}{
-		Config: s.GameConfig,
+		Config:    s.GameConfig,
 		GameState: s.GameState,
 	})
 }
 
 func (s *SudokuManager) UnmarshalJSON(b []byte) error {
-	aux := &struct{
-		Config models.GameConfig
+	aux := &struct {
+		Config    models.GameConfig
 		GameState gamestate.GameState
 	}{}
 

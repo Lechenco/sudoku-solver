@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"log/slog"
 
-	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/models/board"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 	"github.com/Lechenco/sudoku-solver/services/strategy"
 	"github.com/Lechenco/sudoku-solver/utils/format"
 )
 
 type GameConfig struct {
-	InitialBoard models.Board
+	InitialBoard board.Board
 	Strategies   []strategy.Strategy
 	LoggerLevel  slog.Level
 }
@@ -28,7 +28,7 @@ type GameManager interface {
 	GetState() gamestate.GameState
 }
 
-func BoardOfGameState(board string) models.Board {
+func BoardOfGameState(board string) board.Board {
 	return format.BoardFromString(board)
 }
 

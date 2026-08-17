@@ -3,7 +3,7 @@ package cells_test
 import (
 	"testing"
 
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 
 	"github.com/stretchr/testify/assert"
 )

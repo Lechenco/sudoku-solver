@@ -1,10 +1,9 @@
-package models
+package board
 
 import (
 	"iter"
 
-	"github.com/Lechenco/sudoku-solver/internal/models/cells"
-	"github.com/Lechenco/sudoku-solver/internal/models/regions"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 )
 
 func CellsIterator(grid CellGrid) iter.Seq[cells.Cell] {
@@ -35,16 +34,3 @@ func EmptyCellsIterator(grid CellGrid) iter.Seq[cells.Cell] {
 	}
 }
 
-func UnclearRegionsIterator(board Board) iter.Seq[regions.Region] {
-	return func(yield func(regions.Region) bool) {
-		for i, v := range board.CleanedRegions {
-			if v {
-				continue
-			}
-
-			if !yield(board.AllRegions[i]) {
-				return
-			}
-		}
-	}
-}

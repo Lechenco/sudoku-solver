@@ -7,9 +7,12 @@ import (
 	"log/slog"
 	"sync"
 	"time"
+	"weak"
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
-	"github.com/Lechenco/sudoku-solver/internal/models"
+	"github.com/Lechenco/sudoku-solver/internal/services"
+	"github.com/Lechenco/sudoku-solver/models"
+	"github.com/Lechenco/sudoku-solver/models/board"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
 
@@ -26,12 +29,12 @@ func (n *nakedSingleStrategy) MarshalJSON() ([]byte, error) {
 
 // Step iterates for all the cells looking for a cell with only one valid
 // candidate. Creating a step to set this candidate as the cell value.
-func (n *nakedSingleStrategy) Step(gameState gamestate.GameState) (
+func (n *nakedSingleStrategy) Step(gameState gamestate.GameState, _ services.BoardService) (
 	step gamestate.Step, err error) {
 	n.logger.Info("Iniciando busca por passo com estratégia naked_single")
 	data := gamestate.StepData{}
 	start := time.Now()
-	for c := range models.EmptyCellsIterator(gameState.Board.GetCells()) {
+	for c := range board.EmptyCellsIterator(gameState.Board.Cells) {
 		data.Comparations += 1
 		if c.Candidates.GetNumberOfValues() == 1 {
 			values := c.Candidates.GetValues()
