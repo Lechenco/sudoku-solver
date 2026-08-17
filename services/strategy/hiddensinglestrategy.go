@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
-	"github.com/Lechenco/sudoku-solver/models/cells"
-	"github.com/Lechenco/sudoku-solver/models/regions"
 	"github.com/Lechenco/sudoku-solver/internal/services"
+	"github.com/Lechenco/sudoku-solver/internal/services/regions"
+	"github.com/Lechenco/sudoku-solver/models/cells"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
 

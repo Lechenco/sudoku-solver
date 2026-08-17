@@ -3,7 +3,7 @@ package services
 import (
 	"iter"
 
-	"github.com/Lechenco/sudoku-solver/models/regions"
+	"github.com/Lechenco/sudoku-solver/internal/services/regions"
 )
 
 

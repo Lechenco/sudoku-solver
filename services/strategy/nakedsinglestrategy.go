@@ -7,11 +7,9 @@ import (
 	"log/slog"
 	"sync"
 	"time"
-	"weak"
 
 	"github.com/Lechenco/sudoku-solver/internal/logging"
 	"github.com/Lechenco/sudoku-solver/internal/services"
-	"github.com/Lechenco/sudoku-solver/models"
 	"github.com/Lechenco/sudoku-solver/models/board"
 	"github.com/Lechenco/sudoku-solver/models/gamestate"
 )
